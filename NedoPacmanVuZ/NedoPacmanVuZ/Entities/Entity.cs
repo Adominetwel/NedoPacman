@@ -5,7 +5,7 @@ namespace NedoPacmanVuZ.Entities
 {
     internal abstract class Entity
     {
-        public string TypeId { get; init; }
+        public string TypeId { get; }
         public event Action<Vector2, Vector2>? OnPositionChanged;
         private Vector2 _position;
         public Vector2 Position
