@@ -23,14 +23,14 @@ namespace NedoPacmanVuZ.Entities
         public int HitCount { get; set; } = 0;
         public string Name { get; set; }
         public int Speed { get; }
-        private readonly IGhostBehavior _behavior;
+        private readonly IGhostBehavior Behavior;
         public bool IsInHouse { get; set; } = true;
-
+        //public IGhostBehavior Behavior { get; } = 
         public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId) : base(position, typeId)
         {
             Name = name;
             Speed = speed;
-            _behavior = behavior;
+            Behavior = behavior;
             if (base.TypeId == "ghost.blinky") // костыль
                 IsInHouse = false;
         }
@@ -42,7 +42,7 @@ namespace NedoPacmanVuZ.Entities
         public void Update(IGameContext context)
         {
             if (State != GhostState.Active) return;
-            Vector2 direction = _behavior.CalculateNextMove(this, context);
+            Vector2 direction = Behavior.CalculateNextMove(this, context);
             if (direction != Vector2.None)
                 Position = context.World.WrapPosition(Position + direction);
         }
