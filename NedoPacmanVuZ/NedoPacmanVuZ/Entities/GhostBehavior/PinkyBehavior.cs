@@ -1,0 +1,22 @@
+﻿using System;
+using System.Runtime.CompilerServices;
+using NedoPacmanVuZ.Entities;
+
+namespace NedoPacmanVuZ.Entities.GhostBehavior
+{
+    internal class PinkyBehavior : IGhostBehavior
+    {
+        private static readonly ConditionalWeakTable<Ghost, BoxedVector> _lastDirections = new();
+        public Vector2 CalculateNextMove(Ghost ghost, IGameContext context)
+        {
+            Vector2 playerDir = context.PlayerDirection;
+            // Цель Пинки - позиция игрока + 4 клетки вперёд по его ходу
+            Vector2 target = context.CurrentGhostMode == GhostMode.Scatter ? context.GetScatterTarget(ghost.TypeId) :
+                new Vector2(
+                context.PlayerPosition.X + (playerDir.X * 4),
+                context.PlayerPosition.Y + (playerDir.Y * 4)
+            );
+            return GhostMovementHelper.GetBestMove(ghost, target, context, _lastDirections);
+        }
+    }
+}
