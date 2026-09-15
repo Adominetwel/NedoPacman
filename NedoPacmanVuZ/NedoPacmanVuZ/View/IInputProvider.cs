@@ -2,6 +2,6 @@
 {
     internal interface IInputProvider
     {
-        Vector2 GetNextDirection();
+        Vector2 GetNextDirection(out bool shootPressed);
     }
 }

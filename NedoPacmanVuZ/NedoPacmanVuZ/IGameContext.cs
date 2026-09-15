@@ -9,6 +9,7 @@ namespace NedoPacmanVuZ
         Vector2 PlayerDirection { get; } 
         Vector2 BlinkyPosition { get; }
         GhostMode CurrentGhostMode { get; }
+        GameMap World { get; }
         Vector2 GetScatterTarget(string ghostTypeId);
         event Action<GhostMode>? OnGhostModeChanged;
     }

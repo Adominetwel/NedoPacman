@@ -9,19 +9,28 @@ namespace NedoPacmanVuZ.Entities
         Scatter,
         Frightened 
     }
+    enum GhostState
+    {
+        Active,
+        InCage,
+        Dead
+    }
     internal class Ghost : Entity
     {
+        public GhostState State { get; set; } = GhostState.Active;
+        public int HitCount { get; set; } = 0;
         public string Name { get; set; }
-        public int Speed { get; set; }
+        public int Speed { get; }
         private readonly IGhostBehavior _behavior;
-        public bool IsInHouse { get; private set; }
+        public bool IsInHouse { get; set; } = true;
 
         public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId) : base(position, typeId)
         {
             Name = name;
             Speed = speed;
             _behavior = behavior;
-            IsInHouse = (position.Y == 14);
+            if (base.TypeId == "ghost.blinky") // костыль
+                IsInHouse = false;
         }
         public void Release(Vector2 exitPosition)
         {
@@ -30,13 +39,10 @@ namespace NedoPacmanVuZ.Entities
         }
         public void Update(IGameContext context)
         {
+            if (State != GhostState.Active) return;
             Vector2 direction = _behavior.CalculateNextMove(this, context);
-            if (direction == Vector2.None) return;
-            Vector2 nextPosition = Position + direction;
-            if (context is GameCore core)
-                Position = core.World.WrapPosition(nextPosition);
-            else
-                Position = nextPosition;
+            if (direction != Vector2.None)
+                Position = context.World.WrapPosition(Position + direction);
         }
     }
 }

@@ -2,23 +2,34 @@
 {
     internal class ConsoleInputProvider : IInputProvider
     {
-        public Vector2 GetNextDirection()
+        public Vector2 GetNextDirection(out bool shootPressed)
         {
             Vector2 lastValidDir = Vector2.None;
+            shootPressed = false;
+
             while (Console.KeyAvailable)
             {
                 var key = Console.ReadKey(true).Key;
+
+                if (key == ConsoleKey.F)
+                {
+                    shootPressed = true;
+                    continue;
+                }
+
                 var dir = key switch
                 {
-                    ConsoleKey.UpArrow => Vector2.Up,
-                    ConsoleKey.DownArrow => Vector2.Down,
-                    ConsoleKey.LeftArrow => Vector2.Left,
-                    ConsoleKey.RightArrow => Vector2.Right,
+                    ConsoleKey.W => Vector2.Up,
+                    ConsoleKey.S => Vector2.Down,
+                    ConsoleKey.A => Vector2.Left,
+                    ConsoleKey.D => Vector2.Right,
                     _ => Vector2.None
                 };
 
                 if (dir != Vector2.None)
+                {
                     lastValidDir = dir;
+                }
             }
             return lastValidDir;
         }

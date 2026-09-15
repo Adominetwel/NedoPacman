@@ -9,70 +9,109 @@ namespace NedoPacmanVuZ
 {
     internal class GameMap
     {
-        public List<Entity> Entities { get; } = new();
+        private readonly Random _random = new();
+        private readonly List<Vector2> _initialDotPositions = new();
+        private readonly List<Entity> _entities = new();
+        private readonly List<Ghost> _ghosts = new();
+        private readonly List<Projectile> _projectiles = new();
+        public List<Vector2> CagePositions { get; } = new()
+        {
+            new Vector2(13, 12), new Vector2(14, 12), new Vector2(15, 12),
+            new Vector2(13, 13),                      new Vector2(15, 13),
+            new Vector2(13, 14), new Vector2(14, 14), new Vector2(15, 14)
+        };
+        public IReadOnlyList<Entity> Entities => _entities;
+        public IReadOnlyList<Ghost> Ghosts => _ghosts;
+        public IReadOnlyList<Projectile> Projectiles => _projectiles;
         public int Width { get; private set; }
         public int Height { get; private set; }
         public event Action<int>? OnScorePointsEarned;
         public event Action? OnEnergizerTriggered;
         public event Action? OnAllDotsCollected;
-
         public GameMap(int width, int height, List<Entity> entities)
         {
             Width = width;
             Height = height;
-
             foreach (var entity in entities)
             {
+                if (entity is CollectibleItem)
+                    _initialDotPositions.Add(entity.Position);
                 AddEntity(entity);
             }
         }
-
         public void AddEntity(Entity entity)
         {
-            Entities.Add(entity);
-            if (entity is CollectibleItem item)
+            _entities.Add(entity);
+            if (entity is Ghost ghost)
+                _ghosts.Add(ghost);
+            else if (entity is Projectile projectile)
+                _projectiles.Add(projectile);
+            else if (entity is CollectibleItem item)
             {
                 item.OnCollected += HandleItemCollected;
-
                 if (item is EnergizerDot energizer)
-                {
                     energizer.OnEnergizerActivated += HandleEnergizerActivated;
-                }
             }
         }
         public void RemoveEntity(Entity entity)
         {
-            if (entity is CollectibleItem item)
+            _entities.Remove(entity);
+
+            if (entity is Ghost ghost)
+                _ghosts.Remove(ghost);
+            else if (entity is Projectile projectile)
+                _projectiles.Remove(projectile);
+            else if (entity is CollectibleItem item)
             {
                 item.OnCollected -= HandleItemCollected;
-
                 if (item is EnergizerDot energizer)
-                {
                     energizer.OnEnergizerActivated -= HandleEnergizerActivated;
-                }
             }
-            Entities.Remove(entity);
         }
-
         private void HandleItemCollected(CollectibleItem item)
         {
             OnScorePointsEarned?.Invoke(item.ScoreValue);
             RemoveEntity(item);
-
-            if (CountRemainingDots() == 0)
-            {
-                OnAllDotsCollected?.Invoke();
-            }
         }
-
-        private void HandleEnergizerActivated()
+        public void RespawnDotsIfNeeded()
         {
-            OnEnergizerTriggered?.Invoke();
-        }
+            int currentDots = CountRemainingDots();
+            if (currentDots > _initialDotPositions.Count * 0.1) return;
+            var emptyPositions = _initialDotPositions.Where(pos => !Entities.Any(e => e.Position == pos)).ToList();// норм ли логика
+            //var emptyPositions = new List<Vector2>();
+            //foreach (var pos in _initialDotPositions)
+            //{
+            //    bool occupied = false;
+            //    for (int i = 0; i < _entities.Count; i++)
+            //    {
+            //        if (_entities[i].Position == pos)
+            //        {
+            //            occupied = true;
+            //            break;
+            //        }
+            //    }
+            //    if (!occupied)
+            //    {
+            //        emptyPositions.Add(pos);
+            //    }
+            //}
+            foreach (var pos in emptyPositions) 
+                if (_random.Next(0, 2) == 0)
+                    if (_random.Next(0, 100) < 5)
+                        AddEntity(new EnergizerDot(pos));
+                    else
+                        AddEntity(new DefaultDot(pos));
 
+        }
+        public void RemoveCageWalls()
+        {
+            var wallsToRemove = Entities.Where(e => e.TypeId == "wall" && CagePositions.Contains(e.Position)).ToList();
+            foreach (var wall in wallsToRemove)
+                _entities.Remove(wall);
+        }
+        private void HandleEnergizerActivated() => OnEnergizerTriggered?.Invoke();
         public Player? GetPlayer() => Entities.OfType<Player>().FirstOrDefault();
         public int CountRemainingDots() => Entities.Count(e => e is CollectibleItem);
-
         public bool IsWallAt(Vector2 pos)
         {
             Vector2 wrappedPos = WrapPosition(pos);
@@ -85,13 +124,25 @@ namespace NedoPacmanVuZ
             int y = (pos.Y % Height + Height) % Height;
             return new Vector2(x, y);
         }
-
-        public Entity? GetEntityAt(Vector2 pos)
+        public Entity? GetEntityAt(Vector2 pos) // костыль???
         {
-            var cellEntities = Entities.Where(e => e.Position == pos).ToList();
-            if (cellEntities.Any(e => e.TypeId == "player")) return cellEntities.First(e => e.TypeId == "player");
-            return cellEntities.FirstOrDefault(e => e.TypeId.StartsWith("ghost")) ?? cellEntities.FirstOrDefault();
+            Entity? ghost = null;
+            Entity? projectile = null;
+            Entity? collectibleOrWall = null;
+
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                if (_entities[i].Position == pos)
+                {
+                    if (_entities[i].TypeId == "player") return _entities[i];
+                    if (_entities[i].TypeId.StartsWith("ghost")) ghost = _entities[i];
+                    else if (_entities[i].TypeId == "projectile") projectile = _entities[i];
+                    else if (collectibleOrWall == null) collectibleOrWall = _entities[i];
+                }
+            }
+            return ghost ?? projectile ?? collectibleOrWall;
         }
+
     }
 
 

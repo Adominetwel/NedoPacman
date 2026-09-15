@@ -9,7 +9,21 @@ namespace NedoPacmanVuZ.View.ConsoleView
     {
         private const int BlockWidth = 3;
         private const int BlockHeight = 2;
-        private int _animationFrame = 0; // Для эффекта мигания призраков
+        private int _animationFrame = 0;
+
+        private readonly Dictionary<string, (ConsoleColor Color, string TopSymbol, string BottomSymbol)> _renderConfig = new()
+        {
+            { "wall", (ConsoleColor.Blue, "███", "███") },
+            { "player", (ConsoleColor.Yellow, " ☺ ", "   ") },
+            { "dot.default", (ConsoleColor.DarkGray, " · ", "   ") },
+            { "dot.energizer", (ConsoleColor.DarkGray, " ● ", "   ") },
+            { "projectile", (ConsoleColor.Red, " ¤ ", "   ") },
+            { "ghost.blinky", (ConsoleColor.Red, " █B", " m ") },
+            { "ghost.pinky", (ConsoleColor.Magenta, " █P", " m ") },
+            { "ghost.inky", (ConsoleColor.Cyan, " █I", " m ") },
+            { "ghost.clyde", (ConsoleColor.DarkYellow, " █C", " m ") }
+        };
+
         public ConsoleRenderer()
         {
             if (OperatingSystem.IsWindows())
@@ -39,25 +53,14 @@ namespace NedoPacmanVuZ.View.ConsoleView
             Console.OutputEncoding = Encoding.UTF8;
         }
 
-
-        private readonly Dictionary<string, (ConsoleColor Color, string TopSymbol, string BottomSymbol)> _renderConfig = new()
-        {
-            { "wall", (ConsoleColor.Blue, "███", "███") },
-            { "player", (ConsoleColor.Yellow, " ☺ ", "   ") },
-            { "dot.default", (ConsoleColor.DarkGray, " · ", "   ") },
-            { "dot.energizer", (ConsoleColor.DarkGray, " ● ", "   ") },
-            { "ghost.blinky", (ConsoleColor.Red, " █B", " m ") },
-            { "ghost.pinky", (ConsoleColor.Magenta, " █P", " m ") },
-            { "ghost.inky", (ConsoleColor.Cyan, " █I", " m ") },
-            { "ghost.clyde", (ConsoleColor.DarkYellow, " █C", " m ") }
-        };
-
         public void Render(GameCore model)
         {
             _animationFrame++;
             Console.SetCursorPosition(0, 0);
+
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($"СЧЕТ: {model.Score.ToString().PadRight(8)} | ");
+            Console.Write($"СЧЕТ: {model.Score.ToString().PadRight(8)} | ЗАРЯДЫ: {model.AmmoCount.ToString().PadRight(3)} | ");
+
             if (model.CurrentGhostMode == GhostMode.Frightened)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -82,10 +85,13 @@ namespace NedoPacmanVuZ.View.ConsoleView
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("CHASE MODE ".PadRight(27));
             }
+
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(new string('─', model.World.Width * BlockWidth));
+
             for (int y = 0; y < model.World.Height; y++)
+            {
                 for (int subY = 0; subY < BlockHeight; subY++)
                 {
                     for (int x = 0; x < model.World.Width; x++)
@@ -97,17 +103,24 @@ namespace NedoPacmanVuZ.View.ConsoleView
                             Console.Write("   ");
                             continue;
                         }
-                        if (entity is Ghost)
+
+                        if (entity is Ghost ghost)
                         {
-                            if (model.CurrentGhostMode == GhostMode.Frightened)
+                            if (ghost.State == GhostState.InCage)
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                Console.Write(subY == 0 ? " █░" : " m ");
+                            }
+                            else if (model.CurrentGhostMode == GhostMode.Frightened)
                             {
                                 if (model.FrightenedTicksLeft <= 12 && _animationFrame % 2 == 0)
                                     Console.ForegroundColor = ConsoleColor.White;
                                 else
                                     Console.ForegroundColor = ConsoleColor.Blue;
+
                                 Console.Write(subY == 0 ? " █F" : " m ");
                             }
-                            else 
+                            else
                             {
                                 if (_renderConfig.TryGetValue(entity.TypeId, out var config))
                                 {
@@ -122,45 +135,16 @@ namespace NedoPacmanVuZ.View.ConsoleView
                             Console.Write(subY == 0 ? config.TopSymbol : config.BottomSymbol);
                         }
                         else
+                        {
                             Console.Write("   ");
+                        }
                     }
                     Console.WriteLine();
                 }
+            }
             Console.ResetColor();
         }
 
-        private void RenderModeStatusPanel(GameCore model)
-        {
-            if (model.CurrentGhostMode == GhostMode.Frightened)
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.Write(" ПАНИКА ПРИЗРАКОВ! СЪЕШЬ ИХ! ");
-                Console.ResetColor();
-                Console.Write(new string(' ', 15));
-            }
-            else if (model.CurrentGhostMode == GhostMode.Scatter)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("РЕЖИМ: РАЗБЕГАНИЕ (Защита) ");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("РЕЖИМ: АТАКУЮТ! (Опасность) ");
-            }
-        }
-
-        /// <summary>
-        /// Логика изменения цвета испуганных призраков (включая мигание в конце)
-        /// </summary>
-        private void ApplyFrightenedGhostColor(GameCore model)
-        {
-            if (_animationFrame % 2 == 0)
-                Console.ForegroundColor = ConsoleColor.Blue;
-            else
-                Console.ForegroundColor = ConsoleColor.White;
-        }
         public void ShowGameOver(bool isWin)
         {
             Console.Clear();
@@ -176,8 +160,11 @@ namespace NedoPacmanVuZ.View.ConsoleView
                 Console.WriteLine("  ╚═╝     ╚═════╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝  ╚═╝");
             }
             else
+            {
                 Console.WriteLine("  I G R A    O K O N C H E N A");
+            }
             Console.ResetColor();
         }
     }
+
 }

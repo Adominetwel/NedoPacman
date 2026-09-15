@@ -64,8 +64,8 @@ namespace NedoPacmanVuZ
             Console.Clear();
             while (!game.IsGameOver)
             {
-                Vector2 currentDir = input.GetNextDirection();
-                game.Update(currentDir);
+                Vector2 currentDir = input.GetNextDirection(out bool shootPressed);
+                game.Update(currentDir, shootPressed);
                 view.Render(game);
                 Thread.Sleep(200);
             }
@@ -73,6 +73,7 @@ namespace NedoPacmanVuZ
             Thread.Sleep(1000);
             view.ShowGameOver(game.IsWin);
             Console.ReadKey(true);
+
         }
 
         private static GameMap LoadMap(int[,] rawMap, ObjectFactory<CollectibleItem> iFact, ObjectFactory<Ghost> gFact)
