@@ -1,4 +1,7 @@
-﻿namespace NedoPacmanVuZ.View
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+namespace NedoPacmanVuZ.View
 {
     internal interface IGameView
     {

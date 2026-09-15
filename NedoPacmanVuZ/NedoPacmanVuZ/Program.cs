@@ -5,7 +5,9 @@ using NedoPacmanVuZ.Factories;
 using NedoPacmanVuZ.FactoryPattern;
 using NedoPacmanVuZ.View;
 using NedoPacmanVuZ.View.ConsoleView;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace NedoPacmanVuZ
 {
     class Program

@@ -1,5 +1,7 @@
 ﻿using NedoPacmanVuZ.Entities;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace NedoPacmanVuZ
 {
     internal interface IGameContext

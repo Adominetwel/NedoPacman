@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace NedoPacmanVuZ.Entities.GhostBehavior
 {
     internal static class GhostMovementHelper

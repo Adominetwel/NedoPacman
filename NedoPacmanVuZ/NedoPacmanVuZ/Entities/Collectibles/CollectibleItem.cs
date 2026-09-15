@@ -1,4 +1,5 @@
-﻿namespace NedoPacmanVuZ.Entities.Collectibles
+﻿using System;
+namespace NedoPacmanVuZ.Entities.Collectibles
 {
     /// <summary>
     /// Абстрактный класс, описывает любой собираемый игроком предмет

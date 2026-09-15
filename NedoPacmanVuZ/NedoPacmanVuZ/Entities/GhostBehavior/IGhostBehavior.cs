@@ -1,4 +1,7 @@
-﻿namespace NedoPacmanVuZ.Entities.GhostBehavior
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+namespace NedoPacmanVuZ.Entities.GhostBehavior
 {
     internal interface IGhostBehavior
     {

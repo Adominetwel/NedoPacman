@@ -3,7 +3,8 @@ using System.Linq;
 using NedoPacmanVuZ.Entities;
 using NedoPacmanVuZ.Entities.Collectibles;
 using NedoPacmanVuZ.FactoryPattern;
-
+using System.Collections.Generic;
+using System.Linq;
 namespace NedoPacmanVuZ
 {
     internal class GameCore : IGameContext

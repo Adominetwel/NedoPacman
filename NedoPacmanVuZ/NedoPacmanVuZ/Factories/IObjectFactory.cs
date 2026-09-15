@@ -1,5 +1,7 @@
 ﻿using NedoPacmanVuZ.Entities;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace NedoPacmanVuZ.FactoryPattern
 {
     internal interface IObjectFactory<out T> where T : Entity
