@@ -208,10 +208,10 @@ namespace NedoPacmanVuZ
         }
         private bool EvaluateBypassCollision(Vector2 currentProjPos, Vector2 nextProjPos, Projectile proj)
         {
-            Ghost? встречныйПризрак = World.Ghosts.FirstOrDefault(g =>
+            Ghost? hitGhost = World.Ghosts.FirstOrDefault(g =>
                 g.State == GhostState.Active &&
                 g.Position == currentProjPos);
-            if (встречныйПризрак != null)
+            if (hitGhost != null)
             {
                 proj.Position = currentProjPos;
                 return EvaluateProjectileCollision(proj);
