@@ -1,5 +1,6 @@
-﻿using NedoPacmanVuZ.Entities;
-using NedoPacmanVuZ.Entities.Collectibles;
+﻿using NedoPacmanVuZ.Entities.Collectibles;
+using NedoPacmanVuZ.Model;
+using NedoPacmanVuZ.Model.Entities;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -30,24 +31,17 @@ namespace NedoPacmanVuZ.View.ConsoleView
             {
                 [DllImport("kernel32.dll", SetLastError = true)]
                 static extern IntPtr GetConsoleWindow();
-
                 [DllImport("user32.dll", SetLastError = true)]
                 static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
-
-                // Импортируем ShowWindow для отправки команд окну
                 [DllImport("user32.dll", SetLastError = true)]
                 static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
                 const uint GW_OWNER = 4;
-                const int SW_MAXIMIZE = 3; // Команда: Максимизировать окно (Развернуть)
-
+                const int SW_MAXIMIZE = 3; 
                 IntPtr hWnd = GetConsoleWindow();
                 if (hWnd != IntPtr.Zero)
                 {
                     IntPtr hTerminalWnd = GetWindow(hWnd, GW_OWNER);
                     IntPtr targetWnd = hTerminalWnd != IntPtr.Zero ? hTerminalWnd : hWnd;
-
-                    // Вместо MoveWindow используем ShowWindow с флагом 3
                     ShowWindow(targetWnd, SW_MAXIMIZE);
                 }
             }

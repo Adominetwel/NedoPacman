@@ -1,4 +1,6 @@
-﻿namespace NedoPacmanVuZ.View.ConsoleView
+﻿using NedoPacmanVuZ.Model;
+
+namespace NedoPacmanVuZ.View.ConsoleView
 {
     internal class ConsoleInputProvider : IInputProvider
     {
