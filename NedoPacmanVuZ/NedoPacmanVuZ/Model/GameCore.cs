@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NedoPacmanVuZ.FactoryPattern;
 using System.Collections.Generic;
 using System.Linq;
 using NedoPacmanVuZ.Model.Entities;

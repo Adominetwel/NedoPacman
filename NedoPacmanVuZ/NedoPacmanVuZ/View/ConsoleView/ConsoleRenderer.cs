@@ -1,5 +1,4 @@
-﻿using NedoPacmanVuZ.Entities.Collectibles;
-using NedoPacmanVuZ.Model;
+﻿using NedoPacmanVuZ.Model;
 using NedoPacmanVuZ.Model.Entities;
 using System.Runtime.InteropServices;
 using System.Text;

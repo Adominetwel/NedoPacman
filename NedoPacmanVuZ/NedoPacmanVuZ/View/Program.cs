@@ -1,9 +1,6 @@
-﻿using NedoPacmanVuZ.Entities;
-using NedoPacmanVuZ.Entities.Collectibles;
-using NedoPacmanVuZ.Entities.GhostBehavior;
-using NedoPacmanVuZ.FactoryPattern;
-using NedoPacmanVuZ.Model.Entities;
+﻿using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
+using NedoPacmanVuZ.Model.Entities.GhostBehavior;
 using NedoPacmanVuZ.Model.Factories;
 using NedoPacmanVuZ.View;
 using NedoPacmanVuZ.View.ConsoleView;
