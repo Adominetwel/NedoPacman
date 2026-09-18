@@ -30,23 +30,25 @@ namespace NedoPacmanVuZ.View.ConsoleView
             {
                 [DllImport("kernel32.dll", SetLastError = true)]
                 static extern IntPtr GetConsoleWindow();
+
                 [DllImport("user32.dll", SetLastError = true)]
                 static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+
+                // Импортируем ShowWindow для отправки команд окну
                 [DllImport("user32.dll", SetLastError = true)]
-                static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+                static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
                 const uint GW_OWNER = 4;
-                try
-                {
-                    Console.SetWindowSize(120, 85);
-                    Console.SetBufferSize(120, 85);
-                }
-                catch { }
+                const int SW_MAXIMIZE = 3; // Команда: Максимизировать окно (Развернуть)
+
                 IntPtr hWnd = GetConsoleWindow();
                 if (hWnd != IntPtr.Zero)
                 {
                     IntPtr hTerminalWnd = GetWindow(hWnd, GW_OWNER);
                     IntPtr targetWnd = hTerminalWnd != IntPtr.Zero ? hTerminalWnd : hWnd;
-                    MoveWindow(targetWnd, 50, 40, 1500, 1400, true);
+
+                    // Вместо MoveWindow используем ShowWindow с флагом 3
+                    ShowWindow(targetWnd, SW_MAXIMIZE);
                 }
             }
             Console.CursorVisible = false;
