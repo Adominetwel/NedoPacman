@@ -1,0 +1,16 @@
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\bin\Debug\net10.0\NedoPacmanVuZ.exe
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\bin\Debug\net10.0\NedoPacmanVuZ.deps.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\bin\Debug\net10.0\NedoPacmanVuZ.runtimeconfig.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\bin\Debug\net10.0\NedoPacmanVuZ.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\bin\Debug\net10.0\NedoPacmanVuZ.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.GeneratedMSBuildEditorConfig.editorconfig
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.AssemblyInfoInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.AssemblyInfo.cs
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.csproj.CoreCompileInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.sourcelink.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\refint\NedoPacmanVuZ.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacmanVuZ.genruntimeconfig.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\ref\NedoPacmanVuZ.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\NedoPacmanVuZ\obj\Debug\net10.0\NedoPacm.27408BC0.Up2Date
