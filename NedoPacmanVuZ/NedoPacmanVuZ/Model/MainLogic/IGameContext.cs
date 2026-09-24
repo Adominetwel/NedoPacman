@@ -1,9 +1,8 @@
 ﻿using NedoPacmanVuZ.Model.Entities;
-using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace NedoPacmanVuZ.Model
+namespace NedoPacmanVuZ.Model.MainLogic
 {
     internal interface IGameContext
     {

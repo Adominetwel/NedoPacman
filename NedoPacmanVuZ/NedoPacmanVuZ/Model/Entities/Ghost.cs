@@ -1,5 +1,5 @@
-﻿using NedoPacmanVuZ.Model;
-using NedoPacmanVuZ.Model.Entities.GhostBehavior;
+﻿using NedoPacmanVuZ.Model.Entities.GhostBehavior;
+using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,12 +1,11 @@
 ﻿using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 using NedoPacmanVuZ.Model.GameLevel;
-using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq;
-namespace NedoPacmanVuZ.Model
+namespace NedoPacmanVuZ.Model.MainLogic
 {
     internal class GameCore : IGameContext
     {

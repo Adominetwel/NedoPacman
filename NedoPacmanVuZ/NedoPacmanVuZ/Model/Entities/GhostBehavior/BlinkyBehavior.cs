@@ -3,8 +3,8 @@ using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NedoPacmanVuZ.Model;
 using NedoPacmanVuZ.Model.Entities;
+using NedoPacmanVuZ.Model.MainLogic;
 
 namespace NedoPacmanVuZ.Model.Entities.GhostBehavior
 {

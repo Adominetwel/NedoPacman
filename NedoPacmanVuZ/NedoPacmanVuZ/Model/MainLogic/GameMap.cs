@@ -4,7 +4,7 @@ using System.Linq;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 
-namespace NedoPacmanVuZ.Model
+namespace NedoPacmanVuZ.Model.MainLogic
 {
     internal class GameMap
     {
