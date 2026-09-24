@@ -49,7 +49,7 @@ namespace NedoPacmanVuZ.Model
                 }
             }
         }
-        private readonly IGameMode _gameMode;
+        public IGameMode GameMode { get; }
 
 
 
@@ -57,7 +57,7 @@ namespace NedoPacmanVuZ.Model
         public GameCore(GameMap world, IGameMode gameMode)
         {
             World = world;
-            _gameMode = gameMode;
+            GameMode = gameMode;
             World.OnScorePointsEarned += HandleScoreEarned;
             World.OnEnergizerTriggered += HandleEnergizerTriggered;
         }
@@ -79,7 +79,7 @@ namespace NedoPacmanVuZ.Model
         /// </summary>
         public void TryFire()
         {
-            if (!_gameMode.IsShootingAllowed) return;
+            if (!GameMode.IsShootingAllowed) return;
 
             if (AmmoCount <= 0 || PlayerDirection == Vector2.None) return;
             AmmoCount--;
@@ -135,7 +135,7 @@ namespace NedoPacmanVuZ.Model
             UpdateProjectiles();
             CheckGhostCollision();
 
-            if (_gameMode.IsDotRespawnEnabled)
+            if (GameMode.IsDotRespawnEnabled)
                 World.RespawnDotsIfNeeded();
             CheckCageCondition();
             CheckWinCondition();
@@ -241,7 +241,7 @@ namespace NedoPacmanVuZ.Model
 
             DestroyProjectile(proj);
             hitGhost.HitCount++;
-            if (_gameMode.AreGhostsPermanentlyKillable && (hitGhost.State == GhostState.InCage || hitGhost.HitCount >= 2))
+            if (GameMode.AreGhostsPermanentlyKillable && (hitGhost.State == GhostState.InCage || hitGhost.HitCount >= 2))
             {
                 hitGhost.State = GhostState.Dead;
                 World.RemoveEntity(hitGhost);
@@ -280,7 +280,7 @@ namespace NedoPacmanVuZ.Model
         }
         private void CheckWinCondition()
         {
-            if (_gameMode.IsVictoryAchieved(World))
+            if (GameMode.IsVictoryAchieved(World))
             {
                 IsGameOver = true;
                 IsWin = true;

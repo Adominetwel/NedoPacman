@@ -52,10 +52,10 @@ namespace NedoPacmanVuZ.View.ConsoleView
         {
             _animationFrame++;
             Console.SetCursorPosition(0, 0);
-
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($"СЧЕТ: {model.Score.ToString().PadRight(8)} | ЗАРЯДЫ: {model.AmmoCount.ToString().PadRight(3)} | ");
-
+            Console.Write($"СЧЕТ: {model.Score.ToString().PadRight(8)} | ");
+            if (model.GameMode.IsShootingAllowed)
+                Console.Write($"ЗАРЯДЫ: {model.AmmoCount.ToString().PadRight(3)} | ");
             if (model.CurrentGhostMode == GhostMode.Frightened)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -80,11 +80,9 @@ namespace NedoPacmanVuZ.View.ConsoleView
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("CHASE MODE ".PadRight(27));
             }
-
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(new string('─', model.World.Width * BlockWidth));
-
             for (int y = 0; y < model.World.Height; y++)
             {
                 for (int subY = 0; subY < BlockHeight; subY++)
