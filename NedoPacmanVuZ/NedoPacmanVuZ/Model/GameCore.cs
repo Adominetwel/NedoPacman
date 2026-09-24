@@ -1,6 +1,6 @@
 ﻿using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
-using NedoPacmanVuZ.Model.GameModes;
+using NedoPacmanVuZ.Model.GameLevel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -304,7 +304,7 @@ namespace NedoPacmanVuZ.Model
                 {
                     Score += 52;
                     ghostOnPlayer.HitCount++;
-                    if (ghostOnPlayer.State == GhostState.InCage || ghostOnPlayer.HitCount >= 2)
+                    if (GameMode.AreGhostsPermanentlyKillable && (ghostOnPlayer.State == GhostState.InCage || ghostOnPlayer.HitCount >= 2))
                     {
                         ghostOnPlayer.State = GhostState.Dead;
                         World.RemoveEntity(ghostOnPlayer);
@@ -315,12 +315,20 @@ namespace NedoPacmanVuZ.Model
                         Vector2 targetCagePos = _cageSpawnPoints[0];
                         foreach (var pos in _cageSpawnPoints)
                         {
-                            if (!World.Ghosts.Any(g => g.Position == pos)) { targetCagePos = pos; break; }
+                            if (!World.Ghosts.Any(g => g.Position == pos)) 
+                            { 
+                                targetCagePos = pos;
+                                break;
+                            }
                         }
                         ghostOnPlayer.Position = targetCagePos;
                     }
                 }
-                else { IsGameOver = true; IsWin = false; }
+                else 
+                { 
+                    IsGameOver = true;
+                    IsWin = false; 
+                }
             }
         }
         public bool CheckCollision(Vector2 targetPosition, Ghost checkingGhost = null) // много ответственности, надо фикс

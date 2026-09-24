@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NedoPacmanVuZ.Model.GameModes
+namespace NedoPacmanVuZ.Model.GameLevel
 {
     internal class ClassicGameMode : IGameMode
     {

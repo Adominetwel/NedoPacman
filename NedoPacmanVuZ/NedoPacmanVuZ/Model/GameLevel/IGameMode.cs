@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NedoPacmanVuZ.Model.GameModes
+namespace NedoPacmanVuZ.Model.GameLevel
 {
     internal interface IGameMode
     {
@@ -11,8 +11,10 @@ namespace NedoPacmanVuZ.Model.GameModes
         bool IsDotRespawnEnabled { get; }
         bool AreGhostsPermanentlyKillable { get; }
         /// <summary>
-        /// Проверяет, выполнены ли условия победы в данном режиме.
+        /// Проверяет, выполнены ли условия победы в данном режиме
         /// </summary>
+        /// <param name="world">Ссылка на игровой мир</param>
+        /// <returns>true если победа, иначе false</returns>
         bool IsVictoryAchieved(GameMap world);
     } 
 }
