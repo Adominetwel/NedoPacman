@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using NedoPacmanVuZ.Model.Entities;
+using NedoPacmanVuZ.Model.Entities.Collectibles;
+using NedoPacmanVuZ.Model.GameModes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NedoPacmanVuZ.Model.Entities;
-using NedoPacmanVuZ.Model.Entities.Collectibles;
+using System.Linq;
 namespace NedoPacmanVuZ.Model
 {
     internal class GameCore : IGameContext
@@ -48,9 +49,15 @@ namespace NedoPacmanVuZ.Model
                 }
             }
         }
-        public GameCore(GameMap world)
+        private readonly IGameMode _gameMode;
+
+
+
+
+        public GameCore(GameMap world, IGameMode gameMode)
         {
             World = world;
+            _gameMode = gameMode;
             World.OnScorePointsEarned += HandleScoreEarned;
             World.OnEnergizerTriggered += HandleEnergizerTriggered;
         }
@@ -72,6 +79,8 @@ namespace NedoPacmanVuZ.Model
         /// </summary>
         public void TryFire()
         {
+            if (!_gameMode.IsShootingAllowed) return;
+
             if (AmmoCount <= 0 || PlayerDirection == Vector2.None) return;
             AmmoCount--;
             Vector2 spawnPos = World.WrapPosition(PlayerPosition + PlayerDirection);
@@ -126,7 +135,8 @@ namespace NedoPacmanVuZ.Model
             UpdateProjectiles();
             CheckGhostCollision();
 
-            World.RespawnDotsIfNeeded();
+            if (_gameMode.IsDotRespawnEnabled)
+                World.RespawnDotsIfNeeded();
             CheckCageCondition();
             CheckWinCondition();
         }
@@ -231,7 +241,7 @@ namespace NedoPacmanVuZ.Model
 
             DestroyProjectile(proj);
             hitGhost.HitCount++;
-            if (hitGhost.State == GhostState.InCage || hitGhost.HitCount >= 2)
+            if (_gameMode.AreGhostsPermanentlyKillable && (hitGhost.State == GhostState.InCage || hitGhost.HitCount >= 2))
             {
                 hitGhost.State = GhostState.Dead;
                 World.RemoveEntity(hitGhost);
@@ -270,7 +280,7 @@ namespace NedoPacmanVuZ.Model
         }
         private void CheckWinCondition()
         {
-            if (!World.Ghosts.Any(g => g.State != GhostState.Dead))
+            if (_gameMode.IsVictoryAchieved(World))
             {
                 IsGameOver = true;
                 IsWin = true;

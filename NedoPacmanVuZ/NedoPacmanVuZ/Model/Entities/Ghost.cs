@@ -26,13 +26,12 @@ namespace NedoPacmanVuZ.Model.Entities
         public int Speed { get; }
         public bool IsInHouse { get; set; } = true;
         public IGhostBehavior Behavior { get; }
-        public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId) : base(position, typeId)
+        public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId, bool startInHouse) : base(position, typeId)
         {
             Name = name;
             Speed = speed;
             Behavior = behavior;
-            if (base.TypeId == "ghost.blinky") // костыль
-                IsInHouse = false;
+            IsInHouse = startInHouse;
         }
         /// <summary>
         /// Высвобождает призрака из клетки в первый раз

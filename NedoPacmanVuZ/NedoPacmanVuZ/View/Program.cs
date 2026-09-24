@@ -2,6 +2,7 @@
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 using NedoPacmanVuZ.Model.Entities.GhostBehavior;
 using NedoPacmanVuZ.Model.Factories;
+using NedoPacmanVuZ.Model.GameModes;
 using NedoPacmanVuZ.View;
 using NedoPacmanVuZ.View.ConsoleView;
 using System;
@@ -15,15 +16,16 @@ namespace NedoPacmanVuZ.Model
         {
             var itemFactory = new ObjectFactory<CollectibleItem>();
             var ghostFactory = new ObjectFactory<Ghost>();
+
             itemFactory.Register("dot.default", (pos) => new DefaultDot(pos));
             itemFactory.Register("dot.energizer", (pos) => new EnergizerDot(pos));
 
-            ghostFactory.Register("ghost.blinky", (pos) => new Ghost(pos, "Blinky", 1, new BlinkyBehavior(), "ghost.blinky"));
-            ghostFactory.Register("ghost.pinky", (pos) => new Ghost(pos, "Pinky", 1, new PinkyBehavior(), "ghost.pinky"));
-            ghostFactory.Register("ghost.inky", (pos) => new Ghost(pos, "Inky", 1, new InkyBehavior(), "ghost.inky"));
-            ghostFactory.Register("ghost.clyde", (pos) => new Ghost(pos, "Clyde", 1, new ClydeBehavior(), "ghost.clyde"));
+            ghostFactory.Register("ghost.blinky", (pos) => new Ghost(pos, "Blinky", 1, new BlinkyBehavior(), "ghost.blinky", false));
+            ghostFactory.Register("ghost.pinky", (pos) => new Ghost(pos, "Pinky", 1, new PinkyBehavior(), "ghost.pinky", true));
+            ghostFactory.Register("ghost.inky", (pos) => new Ghost(pos, "Inky", 1, new InkyBehavior(), "ghost.inky", true));
+            ghostFactory.Register("ghost.clyde", (pos) => new Ghost(pos, "Clyde", 1, new ClydeBehavior(), "ghost.clyde", true));
 
-        int[,] rawMap = {
+            int[,] rawMap = {
             { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
             { 1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1 },
             { 1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1 },
@@ -56,12 +58,12 @@ namespace NedoPacmanVuZ.Model
             { 1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1 },
             { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
         };
-            GameMap world = LoadMap(rawMap, itemFactory, ghostFactory);
-
-            var game = new GameCore(world);
+            IGameMode activeMode = new ClassicGameMode();
+            Level level = new Level(rawMap, activeMode);
+            GameMap world = LoadMap(level.RawMap, itemFactory, ghostFactory);
+            var game = new GameCore(world, level.GameMode);
             IGameView view = new ConsoleRenderer();
             IInputProvider input = new ConsoleInputProvider();
-
             Console.Clear();
             while (!game.IsGameOver)
             {
@@ -74,9 +76,7 @@ namespace NedoPacmanVuZ.Model
             Thread.Sleep(1000);
             view.ShowGameOver(game.IsWin);
             Console.ReadKey(true);
-
         }
-
         private static GameMap LoadMap(int[,] rawMap, ObjectFactory<CollectibleItem> iFact, ObjectFactory<Ghost> gFact)
         {
             var entities = new List<Entity>();
@@ -88,9 +88,7 @@ namespace NedoPacmanVuZ.Model
                 { 52, "player" }, { 10, "ghost.blinky" }, { 11, "ghost.pinky" },
                 { 12, "ghost.inky" }, { 13, "ghost.clyde" }
             };
-
             for (int y = 0; y < height; y++)
-            {
                 for (int x = 0; x < width; x++)
                 {
                     int code = rawMap[y, x];
@@ -102,7 +100,6 @@ namespace NedoPacmanVuZ.Model
                     else if (typeId.StartsWith("dot.")) entities.Add(iFact.Create(typeId, pos));
                     else if (typeId.StartsWith("ghost.")) entities.Add(gFact.Create(typeId, pos));
                 }
-            }
             return new GameMap(width, height, entities);
         }
     }
