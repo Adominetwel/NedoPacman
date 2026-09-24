@@ -3,7 +3,7 @@ using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace NedoPacmanVuZ.Model.GameLevel
 {
     namespace NedoPacmanVuZ.Model.GameModes

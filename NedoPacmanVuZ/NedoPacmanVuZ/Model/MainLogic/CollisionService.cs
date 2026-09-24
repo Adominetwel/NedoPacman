@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Linq;
 namespace NedoPacmanVuZ.Model.MainLogic
 {
     internal class CollisionService : ICollisionService

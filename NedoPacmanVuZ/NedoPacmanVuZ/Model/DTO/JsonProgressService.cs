@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.Json;
-
+using Newtonsoft.Json;
+using System.IO;
 namespace NedoPacmanVuZ.Model.DTO
 {
     internal class JsonProgressService : IProgressStorage
@@ -18,7 +18,8 @@ namespace NedoPacmanVuZ.Model.DTO
                 return new Dictionary<int, bool>();
             try
             {
-                var data = JsonSerializer.Deserialize<LevelProgressData>(File.ReadAllText(_filePath));
+                var json = File.ReadAllText(_filePath);
+                var data = JsonConvert.DeserializeObject<LevelProgressData>(json);
                 return data?.PassedLevels ?? new Dictionary<int, bool>();
             }
             catch
@@ -32,8 +33,7 @@ namespace NedoPacmanVuZ.Model.DTO
         public void SaveProgress(Dictionary<int, bool> passedLevels)
         {
             var data = new LevelProgressData { PassedLevels = passedLevels };
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(data, options);
+            string json = JsonConvert.SerializeObject(data);
             File.WriteAllText(_filePath, json);
         }
         /// <summary>
