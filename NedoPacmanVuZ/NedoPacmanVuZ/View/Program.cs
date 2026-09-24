@@ -14,6 +14,10 @@ namespace NedoPacmanVuZ.Model
 {
     class Program
     {
+        /// <summary>
+        /// Бесполезный метод
+        /// </summary>
+        /// <param name="args">хз чё это</param>
         static void Main(string[] args)
         {
             var itemFactory = new ObjectFactory<CollectibleItem>();

@@ -14,6 +14,9 @@ namespace NedoPacmanVuZ.Model.Entities.Collectibles
         {
             ScoreValue = scoreValue;
         }
+        /// <summary>
+        /// Метод для обработки поднятия игровой точки
+        /// </summary>
         public virtual void OnCollect()
         {
             OnCollected?.Invoke(this);

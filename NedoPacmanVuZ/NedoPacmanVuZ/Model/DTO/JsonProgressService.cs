@@ -8,10 +8,6 @@ namespace NedoPacmanVuZ.Model.DTO
     internal class JsonProgressService : IProgressStorage
     {
         private readonly string _filePath = "user_progress.json";
-
-        /// <summary>
-        /// Загружает прогресс из JSON-файла. Если файла нет - создает пустой прогресс
-        /// </summary>
         public Dictionary<int, bool> LoadProgress()
         {
             if (!File.Exists(_filePath))
@@ -27,18 +23,12 @@ namespace NedoPacmanVuZ.Model.DTO
                 return new Dictionary<int, bool>();
             }
         }
-        /// <summary>
-        /// Сохраняет переданный прогресс в JSON-файл.
-        /// </summary>
         public void SaveProgress(Dictionary<int, bool> passedLevels)
         {
             var data = new LevelProgressData { PassedLevels = passedLevels };
             string json = JsonConvert.SerializeObject(data);
             File.WriteAllText(_filePath, json);
         }
-        /// <summary>
-        /// Стирает файл сохранения
-        /// </summary>
         public void ResetProgress()
         {
             if (File.Exists(_filePath))

@@ -7,8 +7,9 @@ namespace NedoPacmanVuZ.Model.DTO
     internal interface IProgressStorage
     {
         /// <summary>
-        /// Загружает карту прогресса (ID уровня -> пройден или нет)
+        /// Загружает карту прогресса
         /// </summary>
+        /// <returns>Словарь вида ID уровня -> пройден или нет</returns>
         Dictionary<int, bool> LoadProgress();
         /// <summary>
         /// Сохраняет всю карту прогресса
