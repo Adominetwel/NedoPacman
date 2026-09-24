@@ -32,7 +32,7 @@ namespace NedoPacmanVuZ.Model.Entities.GhostBehavior
                 foreach (var dir in directions)
                 {
                     Vector2 nextPosition = ghost.Position + dir;
-                    if (context.CheckCollision(nextPosition, ghost)) continue;
+                    if (!context.CollisionService.CanGhostMoveTo(nextPosition, ghost, context.World)) continue;
                     if (currentDir != Vector2.None && (dir.X == -currentDir.X && dir.Y == -currentDir.Y)) continue;
 
                     validDirections.Add(dir);
@@ -46,7 +46,7 @@ namespace NedoPacmanVuZ.Model.Entities.GhostBehavior
                 foreach (var dir in directions)
                 {
                     Vector2 nextPosition = ghost.Position + dir;
-                    if (context.CheckCollision(nextPosition, ghost)) continue;
+                    if (!context.CollisionService.CanGhostMoveTo(nextPosition, ghost, context.World)) continue;
                     if (currentDir != Vector2.None && (dir.X == -currentDir.X && dir.Y == -currentDir.Y)) continue;
                     int dx = nextPosition.X - target.X;
                     int dy = nextPosition.Y - target.Y;
@@ -61,7 +61,7 @@ namespace NedoPacmanVuZ.Model.Entities.GhostBehavior
             if (bestDirection == Vector2.None)
             {
                 Vector2 reverseDir = new Vector2(-currentDir.X, -currentDir.Y);
-                if (currentDir != Vector2.None && !context.CheckCollision(ghost.Position + reverseDir, ghost))
+                if (context.CollisionService.CanGhostMoveTo(ghost.Position + reverseDir, ghost, context.World))
                     bestDirection = reverseDir;
             }
             boxedDir.Value = bestDirection;

@@ -1,6 +1,7 @@
 ﻿using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 using NedoPacmanVuZ.Model.GameLevel;
+using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace NedoPacmanVuZ.Model
         private const int FrightenedDurationTicks = 40;
         private const int ReleaseIntervalSteps = 20;
         private const int DotsForAmmo = 20;
+        public ICollisionService CollisionService { get; }
         private readonly List<Vector2> _cageSpawnPoints = new()
         {
             new Vector2(13, 13), new Vector2(14, 13), new Vector2(15, 13)
@@ -54,10 +56,11 @@ namespace NedoPacmanVuZ.Model
 
 
 
-        public GameCore(GameMap world, IGameMode gameMode)
+        public GameCore(GameMap world, IGameMode gameMode, ICollisionService collisionService)
         {
             World = world;
             GameMode = gameMode;
+            CollisionService = collisionService;
             World.OnScorePointsEarned += HandleScoreEarned;
             World.OnEnergizerTriggered += HandleEnergizerTriggered;
         }
@@ -84,7 +87,7 @@ namespace NedoPacmanVuZ.Model
             if (AmmoCount <= 0 || PlayerDirection == Vector2.None) return;
             AmmoCount--;
             Vector2 spawnPos = World.WrapPosition(PlayerPosition + PlayerDirection);
-            if (!World.IsWallAt(spawnPos))
+            if (!CollisionService.IsWallAt(spawnPos, World))
             {
                 var projectile = new Projectile(spawnPos, PlayerDirection);
                 projectile.OnMoved += HandleProjectileMoved;
@@ -113,13 +116,13 @@ namespace NedoPacmanVuZ.Model
             Player? player = World.GetPlayer();
             if (player == null) return;
 
-            if (_nextDirection != Vector2.None && !World.IsWallAt(PlayerPosition + _nextDirection))
+            if (_nextDirection != Vector2.None && !CollisionService.IsWallAt(PlayerPosition + _nextDirection, World))
                 _currentDirection = _nextDirection;
 
             if (_currentDirection != Vector2.None)
             {
                 Vector2 nextPlayerPos = PlayerPosition + _currentDirection;
-                if (!World.IsWallAt(nextPlayerPos))
+                if (!CollisionService.IsWallAt(nextPlayerPos, World))
                 {
                     player.Position = World.WrapPosition(nextPlayerPos);
                     CheckCollectiblePickup();
@@ -195,7 +198,7 @@ namespace NedoPacmanVuZ.Model
                     Vector2 previousProjPos = proj.Position;
                     Vector2 nextPos = World.WrapPosition(proj.Position + proj.Direction);
 
-                    if (World.IsWallAt(nextPos))
+                    if (CollisionService.IsWallAt(nextPos, World))
                     {
                         DestroyProjectile(proj);
                         destroyed = true;
@@ -335,12 +338,6 @@ namespace NedoPacmanVuZ.Model
                     IsWin = false; 
                 }
             }
-        }
-        public bool CheckCollision(Vector2 targetPosition, Ghost checkingGhost = null) // много ответственности, надо фикс
-        { 
-            if (World.IsWallAt(targetPosition)) 
-                return true; 
-            return World.Ghosts.Any(g => g != checkingGhost && g.State == GhostState.Active && !g.IsInHouse && g.Position == World.WrapPosition(targetPosition)); 
         }
         public Vector2 GetScatterTarget(string ghostTypeId) => ghostTypeId switch { 
             "ghost.blinky" => new Vector2(World.Width - 2, -2), 

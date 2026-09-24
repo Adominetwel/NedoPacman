@@ -116,11 +116,6 @@ namespace NedoPacmanVuZ.Model
         /// </summary>
         /// <returns>л-во оставшихся на поле точек</returns>
         public int CountRemainingDots() => Entities.Count(e => e is CollectibleItem);
-        public bool IsWallAt(Vector2 pos)
-        {
-            Vector2 wrappedPos = WrapPosition(pos);
-            return Entities.Any(e => e.TypeId == "wall" && e.Position == wrappedPos);
-        }
         /// <summary>
         /// Метод, позволяющий объекту выходить за пределы карты и возвращаться с другого её конца
         /// </summary>

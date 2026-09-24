@@ -4,6 +4,7 @@ using NedoPacmanVuZ.Model.Entities.Collectibles;
 using NedoPacmanVuZ.Model.Entities.GhostBehavior;
 using NedoPacmanVuZ.Model.Factories;
 using NedoPacmanVuZ.Model.GameLevel;
+using NedoPacmanVuZ.Model.MainLogic;
 using NedoPacmanVuZ.View;
 using NedoPacmanVuZ.View.ConsoleView;
 using System;
@@ -27,13 +28,15 @@ namespace NedoPacmanVuZ.Model
             IGameView view = new ConsoleRenderer();
             IInputProvider input = new ConsoleInputProvider();
             IProgressStorage progressStorage = new JsonProgressService();
+            ICollisionService collisionService = new CollisionService();
             var levelRepository = new LevelRepository(progressStorage);
             while (true)
             {
                 ILevelSelector levelSelector = new ConsoleMenu(levelRepository.GetAllLevels(), levelRepository);
+                
                 Level selectedLevel = levelSelector.SelectLevel();
                 GameMap world = LoadMap(selectedLevel.RawMap, itemFactory, ghostFactory);
-                var game = new GameCore(world, selectedLevel.GameMode);
+                var game = new GameCore(world, selectedLevel.GameMode, collisionService);
                 Console.Clear();
                 while (!game.IsGameOver)
                 {

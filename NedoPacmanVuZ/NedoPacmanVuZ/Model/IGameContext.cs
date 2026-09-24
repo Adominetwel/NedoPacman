@@ -1,4 +1,5 @@
 ﻿using NedoPacmanVuZ.Model.Entities;
+using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +7,7 @@ namespace NedoPacmanVuZ.Model
 {
     internal interface IGameContext
     {
-        /// <summary>
-        /// Проверяет столкновение объектов
-        /// </summary>
-        /// <param name="targetPosition">Куда движется объект</param>
-        /// <param name="checkingGhost">Если призрак, проеряет столкновение с другими призраками</param>
-        /// <returns>true если столкнулся, иначе false</returns>
-        bool CheckCollision(Vector2 targetPosition, Ghost checkingGhost = null);
+        ICollisionService CollisionService { get; }
         /// <summary>
         /// Возвращает любимое место призрака (куда он идёт во время блуждания)
         /// </summary>
