@@ -22,6 +22,15 @@ namespace NedoPacmanVuZ.Model.MainLogic
         public IReadOnlyList<Entity> Entities => _entities;
         public IReadOnlyList<Ghost> Ghosts => _ghosts;
         public IReadOnlyList<Projectile> Projectiles => _projectiles;
+        public Vector2 CageExitPosition
+        {
+            get
+            {
+                // Для большой карты (28х31) это вернет чистые (14, 11)
+                // Для маленькой карты (10х6) это автоматически превратится в безопасные (4, 5)
+                return WrapPosition(new Vector2(14, 11));
+            }
+        }
         public int Width { get; private set; }
         public int Height { get; private set; }
         public event Action<int>? OnScorePointsEarned;

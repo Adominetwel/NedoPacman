@@ -27,12 +27,17 @@ namespace NedoPacmanVuZ.Model.Entities
         public bool IsInHouse { get; set; } = true;
         public IGhostBehavior Behavior { get; }
         public int CageTicksLeft { get; set; } = 0;
-        public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId, bool startInHouse) : base(position, typeId)
+        public Vector2 InitialSpawnPosition { get; }
+        public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId, bool startInHouse)
+            : base(position, typeId)
         {
             Name = name;
             Speed = speed;
             Behavior = behavior;
             IsInHouse = startInHouse;
+
+
+            InitialSpawnPosition = position;
         }
         /// <summary>
         /// Высвобождает призрака из клетки в первый раз

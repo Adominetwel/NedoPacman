@@ -16,7 +16,7 @@ namespace NedoPacmanVuZ.View.ConsoleView
             _levels = levels.ToList();
             _repository = repository;
         }
-        public Level SelectLevel()
+        public Task<Level> SelectLevel()
         {
             Console.CursorVisible = false;
             while (true)
@@ -38,13 +38,14 @@ namespace NedoPacmanVuZ.View.ConsoleView
                     else
                     {
                         Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = lvl.IsPassed ? ConsoleColor.Green : ConsoleColor.Gray; // Пройденные уровни подсвечиваем зеленым
+                        Console.ForegroundColor = lvl.IsPassed ? ConsoleColor.Green : ConsoleColor.Gray;
                         Console.WriteLine($"    {progressStatus} {lvl.Name.PadRight(40)} [Режим: {lvl.GameMode.ModeId.Replace("mode.", "")}] ");
                     }
                 }
 
                 Console.ResetColor();
                 RenderFooter();
+
                 var key = Console.ReadKey(true).Key;
                 if (key == ConsoleKey.W || key == ConsoleKey.UpArrow)
                 {
@@ -72,7 +73,7 @@ namespace NedoPacmanVuZ.View.ConsoleView
                 else if (key == ConsoleKey.Enter)
                 {
                     Console.Clear();
-                    return _levels[_selectedIndex];
+                    return Task.FromResult(_levels[_selectedIndex]);
                 }
             }
         }

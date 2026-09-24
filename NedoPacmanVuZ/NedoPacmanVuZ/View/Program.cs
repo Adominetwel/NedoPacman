@@ -33,8 +33,8 @@ namespace NedoPacmanVuZ.Model
             while (true)
             {
                 ILevelSelector levelSelector = new ConsoleMenu(levelRepository.GetAllLevels(), levelRepository);
-                
-                Level selectedLevel = levelSelector.SelectLevel();
+
+                Level selectedLevel = levelSelector.SelectLevel().Result;
                 GameMap world = LoadMap(selectedLevel.RawMap, itemFactory, ghostFactory);
                 var game = new GameCore(world, selectedLevel.GameMode, collisionService);
                 Console.Clear();

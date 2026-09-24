@@ -347,22 +347,28 @@ namespace NedoPacmanVuZ.Model.MainLogic
         private void ReleaseGhostsIfNeeded()
         {
             if (GameMode.IsTimedRespawnEnabled)
+            {
                 foreach (var ghost in World.Ghosts)
+                {
                     if (ghost.State == GhostState.InCage)
                     {
                         ghost.CageTicksLeft--;
                         if (ghost.CageTicksLeft <= 0)
                         {
                             ghost.State = GhostState.Active;
-                            ghost.Release(new Vector2(14, 11));
+                            ghost.Release(World.CageExitPosition);
                         }
                     }
+                }
+            }
             _stepsSinceStart++;
             if (_stepsSinceStart % ReleaseIntervalSteps == 0)
             {
                 var ghostInHouse = World.Ghosts.FirstOrDefault(g => g.IsInHouse && g.State == GhostState.Active);
                 if (ghostInHouse != null)
-                    ghostInHouse.Release(new Vector2(14, 11));
+                {
+                    ghostInHouse.Release(World.CageExitPosition);
+                }
             }
         }
         //52
