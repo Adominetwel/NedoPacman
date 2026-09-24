@@ -35,7 +35,7 @@ namespace NedoPacmanVuZ.Model
                 ILevelSelector levelSelector = new ConsoleMenu(levelRepository.GetAllLevels(), levelRepository);
 
                 Level selectedLevel = levelSelector.SelectLevel().Result;
-                GameMap world = LoadMap(selectedLevel.RawMap, itemFactory, ghostFactory);
+                GameMap world = LoadMap(selectedLevel.RawMap, itemFactory, ghostFactory);   
                 var game = new GameCore(world, selectedLevel.GameMode, collisionService);
                 Console.Clear();
                 while (!game.IsGameOver)
@@ -64,6 +64,8 @@ namespace NedoPacmanVuZ.Model
         private static GameMap LoadMap(int[,] rawMap, ObjectFactory<CollectibleItem> iFact, ObjectFactory<Ghost> gFact)
         {
             var entities = new List<Entity>();
+            var cagePositions = new List<Vector2>();
+
             int height = rawMap.GetLength(0);
             int width = rawMap.GetLength(1);
 
@@ -72,6 +74,17 @@ namespace NedoPacmanVuZ.Model
                 { 52, "player" }, { 10, "ghost.blinky" }, { 11, "ghost.pinky" },
                 { 12, "ghost.inky" }, { 13, "ghost.clyde" }
             };
+            if (width == 28)
+            {
+                cagePositions.AddRange(new[] {
+                    new Vector2(13, 14), new Vector2(14, 14), new Vector2(15, 14),
+                    new Vector2(13, 15), new Vector2(14, 15), new Vector2(15, 15),
+                    new Vector2(13, 16), new Vector2(14, 16), new Vector2(15, 16)
+                });
+            }
+            else
+            {
+            }
 
             for (int y = 0; y < height; y++)
             {
@@ -84,10 +97,17 @@ namespace NedoPacmanVuZ.Model
                     if (typeId == "wall") entities.Add(new Wall(pos));
                     else if (typeId == "player") entities.Add(new Player(pos));
                     else if (typeId.StartsWith("dot.")) entities.Add(iFact.Create(typeId, pos));
-                    else if (typeId.StartsWith("ghost.")) entities.Add(gFact.Create(typeId, pos));
+                    else if (typeId.StartsWith("ghost."))
+                    {
+                        Ghost ghost = gFact.Create(typeId, pos);
+                        if (ghost != null)
+                        {
+                            entities.Add(ghost);
+                        }
+                    }
                 }
             }
-            return new GameMap(width, height, entities);
+            return new GameMap(width, height, entities, cagePositions);
         }
     }
 }

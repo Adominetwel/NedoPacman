@@ -13,12 +13,7 @@ namespace NedoPacmanVuZ.Model.MainLogic
         private readonly List<Entity> _entities = new();
         private readonly List<Ghost> _ghosts = new();
         private readonly List<Projectile> _projectiles = new();
-        public List<Vector2> CagePositions { get; } = new()
-        {
-            new Vector2(13, 12), new Vector2(14, 12), new Vector2(15, 12),
-            new Vector2(13, 13),                      new Vector2(15, 13),
-            new Vector2(13, 14), new Vector2(14, 14), new Vector2(15, 14)
-        };
+        public IReadOnlyList<Vector2> CagePositions { get; }
         public IReadOnlyList<Entity> Entities => _entities;
         public IReadOnlyList<Ghost> Ghosts => _ghosts;
         public IReadOnlyList<Projectile> Projectiles => _projectiles;
@@ -36,10 +31,12 @@ namespace NedoPacmanVuZ.Model.MainLogic
         public event Action<int>? OnScorePointsEarned;
         public event Action? OnEnergizerTriggered;
         public event Action? OnAllDotsCollected;
-        public GameMap(int width, int height, List<Entity> entities)
+        public GameMap(int width, int height, List<Entity> entities, List<Vector2> cagePositions)
         {
             Width = width;
             Height = height;
+            CagePositions = cagePositions ?? new List<Vector2>();
+
             foreach (var entity in entities)
             {
                 if (entity is CollectibleItem)

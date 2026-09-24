@@ -21,10 +21,6 @@ namespace NedoPacmanVuZ.Model.MainLogic
         private const int ReleaseIntervalSteps = 20;
         private const int DotsForAmmo = 20;
         public ICollisionService CollisionService { get; }
-        private readonly List<Vector2> _cageSpawnPoints = new()
-        {
-            new Vector2(13, 13), new Vector2(14, 13), new Vector2(15, 13)
-        };
         public GameMap World { get; private set; }
         public int Score { get; private set; }
         public bool IsGameOver { get; private set; }
@@ -252,15 +248,27 @@ namespace NedoPacmanVuZ.Model.MainLogic
             {
                 hitGhost.State = GhostState.InCage;
                 hitGhost.CageTicksLeft = 40;
-                Vector2 targetCagePos = _cageSpawnPoints[0];
-                foreach (var pos in _cageSpawnPoints)
+
+                Vector2 targetCagePos = Vector2.None;
+                bool foundValidPos = false;
+
+                if (World.CagePositions != null && World.CagePositions.Count > 0)
                 {
-                    if (!World.Ghosts.Any(g => g.Position == pos))
+                    foreach (var pos in World.CagePositions)
                     {
-                        targetCagePos = pos;
-                        break;
+                        if (pos.X < World.Width && pos.Y < World.Height && !World.Ghosts.Any(g => g.Position == pos))
+                        {
+                            targetCagePos = pos;
+                            foundValidPos = true;
+                            break;
+                        }
                     }
                 }
+                if (!foundValidPos)
+                {
+                    targetCagePos = hitGhost.InitialSpawnPosition;
+                }
+
                 hitGhost.Position = targetCagePos;
             }
             return true;
@@ -319,22 +327,34 @@ namespace NedoPacmanVuZ.Model.MainLogic
                     {
                         ghostOnPlayer.State = GhostState.InCage;
                         ghostOnPlayer.CageTicksLeft = 40;
-                        Vector2 targetCagePos = _cageSpawnPoints[0];
-                        foreach (var pos in _cageSpawnPoints)
+
+                        Vector2 targetCagePos = Vector2.None;
+                        bool foundValidPos = false;
+
+                        if (World.CagePositions != null && World.CagePositions.Count > 0)
                         {
-                            if (!World.Ghosts.Any(g => g.Position == pos)) 
-                            { 
-                                targetCagePos = pos;
-                                break;
+                            foreach (var pos in World.CagePositions)
+                            {
+                                if (pos.X < World.Width && pos.Y < World.Height && !World.Ghosts.Any(g => g.Position == pos))
+                                {
+                                    targetCagePos = pos;
+                                    foundValidPos = true;
+                                    break;
+                                }
                             }
                         }
+                        if (!foundValidPos)
+                        {
+                            targetCagePos = ghostOnPlayer.InitialSpawnPosition;
+                        }
+
                         ghostOnPlayer.Position = targetCagePos;
                     }
                 }
-                else 
-                { 
+                else
+                {
                     IsGameOver = true;
-                    IsWin = false; 
+                    IsWin = false;
                 }
             }
         }
