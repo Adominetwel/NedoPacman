@@ -249,6 +249,7 @@ namespace NedoPacmanVuZ.Model
             else
             {
                 hitGhost.State = GhostState.InCage;
+                hitGhost.CageTicksLeft = 40;
                 Vector2 targetCagePos = _cageSpawnPoints[0];
                 foreach (var pos in _cageSpawnPoints)
                 {
@@ -275,7 +276,10 @@ namespace NedoPacmanVuZ.Model
             {
                 World.RemoveCageWalls();
                 foreach (var g in ghosts)
+                {
                     g.State = GhostState.Active;
+                    g.CageTicksLeft = 0;
+                }
             }
         }
         private void CheckWinCondition()
@@ -312,6 +316,7 @@ namespace NedoPacmanVuZ.Model
                     else
                     {
                         ghostOnPlayer.State = GhostState.InCage;
+                        ghostOnPlayer.CageTicksLeft = 40;
                         Vector2 targetCagePos = _cageSpawnPoints[0];
                         foreach (var pos in _cageSpawnPoints)
                         {
@@ -342,7 +347,28 @@ namespace NedoPacmanVuZ.Model
             "ghost.pinky" => new Vector2(2, -2), 
             "ghost.inky" => new Vector2(World.Width - 2, World.Height + 2), 
             "ghost.clyde" => new Vector2(2, World.Height + 2), 
-            _ => PlayerPosition }; 
-        private void ReleaseGhostsIfNeeded() { _stepsSinceStart++; if (_stepsSinceStart % ReleaseIntervalSteps == 0) { var ghostInHouse = World.Ghosts.FirstOrDefault(g => g.IsInHouse && g.State == GhostState.Active); if (ghostInHouse != null) { ghostInHouse.Release(new Vector2(14, 11)); } } }
+            _ => PlayerPosition };
+        private void ReleaseGhostsIfNeeded()
+        {
+            if (GameMode.IsTimedRespawnEnabled)
+                foreach (var ghost in World.Ghosts)
+                    if (ghost.State == GhostState.InCage)
+                    {
+                        ghost.CageTicksLeft--;
+                        if (ghost.CageTicksLeft <= 0)
+                        {
+                            ghost.State = GhostState.Active;
+                            ghost.Release(new Vector2(14, 11));
+                        }
+                    }
+            _stepsSinceStart++;
+            if (_stepsSinceStart % ReleaseIntervalSteps == 0)
+            {
+                var ghostInHouse = World.Ghosts.FirstOrDefault(g => g.IsInHouse && g.State == GhostState.Active);
+                if (ghostInHouse != null)
+                    ghostInHouse.Release(new Vector2(14, 11));
+            }
+        }
+        //52
     }
 }

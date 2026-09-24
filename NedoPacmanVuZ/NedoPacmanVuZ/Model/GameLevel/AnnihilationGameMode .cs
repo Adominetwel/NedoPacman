@@ -13,6 +13,7 @@ namespace NedoPacmanVuZ.Model.GameLevel
             public bool IsShootingAllowed => true;
             public bool IsDotRespawnEnabled => true;
             public bool AreGhostsPermanentlyKillable => true;
+            public bool IsTimedRespawnEnabled => false;
             public bool IsVictoryAchieved(GameMap world)
             {
                 return !world.Ghosts.Any(g => g.State != GhostState.Dead);

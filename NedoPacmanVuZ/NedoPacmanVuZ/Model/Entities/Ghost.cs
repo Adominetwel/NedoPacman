@@ -26,6 +26,7 @@ namespace NedoPacmanVuZ.Model.Entities
         public int Speed { get; }
         public bool IsInHouse { get; set; } = true;
         public IGhostBehavior Behavior { get; }
+        public int CageTicksLeft { get; set; } = 0;
         public Ghost(Vector2 position, string name, int speed, IGhostBehavior behavior, string typeId, bool startInHouse) : base(position, typeId)
         {
             Name = name;

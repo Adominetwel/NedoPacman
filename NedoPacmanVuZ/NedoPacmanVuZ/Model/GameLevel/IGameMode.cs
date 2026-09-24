@@ -9,6 +9,7 @@ namespace NedoPacmanVuZ.Model.GameLevel
         string ModeId { get; }
         bool IsShootingAllowed { get; }
         bool IsDotRespawnEnabled { get; }
+        bool IsTimedRespawnEnabled { get; }
         bool AreGhostsPermanentlyKillable { get; }
         /// <summary>
         /// Проверяет, выполнены ли условия победы в данном режиме

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NedoPacmanVuZ")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e2b6630df7d8746b4c9a7fed0d6308428500a26")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c4dd10716146dc70adf7e391a9f4dc73b0f26ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("NedoPacmanVuZ")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NedoPacmanVuZ")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
