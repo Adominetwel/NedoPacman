@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.FileManager;
+﻿using Model.Model.GameLevel;
+using NedoPacmanVuZ.FileManager;
 using NedoPacmanVuZ.Model.GameLevel.NedoPacmanVuZ.Model.GameModes;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,17 @@ namespace NedoPacmanVuZ.Model.GameLevel
     {
 
         private readonly IProgressStorage _progressStorage;
+        private readonly List<Level> _mockStaticLevels;
 
         public LevelRepository(IProgressStorage progressStorage)
         {
             _progressStorage = progressStorage;
+            _mockStaticLevels = InitializeMockLevels();
         }
-        /// <summary>
-        /// Возвращает список уровней
-        /// </summary>
-        /// <returns>Список уровней</returns>
-        public IEnumerable<Level> GetAllLevels()
+        private List<Level> InitializeMockLevels()
         {
             var classic = new ClassicGameMode();
             var annihilation = new AnnihilationGameMode();
-            var progress = _progressStorage.LoadProgress();
             int[,] map1 = {
                 { 1,1,1,1,1,1,1,1,1,1 },
                 { 1,52,2,2,1,1,2,2,4,1 },
@@ -32,39 +30,68 @@ namespace NedoPacmanVuZ.Model.GameLevel
                 { 1,4,2,0,10,11,0,2,2,1 },
                 { 1,1,1,1,1,1,1,1,1,1 }
             };
+            var config1 = new LevelConfig(new Vector2(4, 3), new List<Vector2> { new Vector2(4, 4), new Vector2(5, 4) });
             int[,] map2 = GetStandardLayout();
+            var config2 = new LevelConfig(
+                new Vector2(14, 11),
+                new List<Vector2> {
+                    new Vector2(13, 14), new Vector2(14, 14), new Vector2(15, 14),
+                    new Vector2(13, 15), new Vector2(14, 15), new Vector2(15, 15),
+                    new Vector2(13, 16), new Vector2(14, 16), new Vector2(15, 16)
+                }
+            );
             int[,] map3 = GetBigArenaLayout();
+            var config3 = new LevelConfig(new Vector2(14, 15), new List<Vector2> { new Vector2(13, 17), new Vector2(14, 17), new Vector2(15, 17) });
             int[,] map4 = GetBigSplitLayout();
+            var config4 = new LevelConfig(new Vector2(14, 11), new List<Vector2> { new Vector2(13, 13), new Vector2(14, 13), new Vector2(15, 13) });
             int[,] map5 = GetCatacombsLayout();
-            var levels = new List<Level>
+            var config5 = new LevelConfig(new Vector2(15, 13), new List<Vector2> { new Vector2(15, 16), new Vector2(16, 16) });
+            return new List<Level>
             {
-                new Level(1, "1. Знакомство (Маленькая классика)", map1, classic),
-                new Level(2, "2. Оригинальный Лабиринт (Большая классика)", map2, classic),
-                new Level(3, "3. Большая Арена (Модифицированный)", map3, annihilation),
-                new Level(4, "4. Лабиринт Развилок (Большая классика)", map4, classic),
-                new Level(5, "5. Проклятые Катакомбы (Модифицированный)", map5, annihilation)
+                new Level(1, "1. Знакомство (Маленькая классика)", map1, classic, config1),
+                new Level(2, "2. Оригинальный Лабиринт (Большая классика)", map2, classic, config2),
+                new Level(3, "3. Большая Арена (Модифицированный)", map3, annihilation, config3),
+                new Level(4, "4. Лабиринт Развилок (Большая классика)", map4, classic, config4),
+                new Level(5, "5. Проклятые Катакомбы (Модифицированный)", map5, annihilation, config5)
             };
-            foreach (var lvl in levels)
-                if (progress.TryGetValue(lvl.Id, out bool isPassed))
-                    lvl.IsPassed = isPassed;
-            return levels;
         }
-        /// <summary>
-        /// Обозначает уровень как пройденный
-        /// </summary>
-        /// <param name="levelId">номер уровня</param>
-        public void MarkLevelAsPassed(int levelId)
+        public IEnumerable<Level> ReadAll()
         {
             var progress = _progressStorage.LoadProgress();
-            progress[levelId] = true;
-            _progressStorage.SaveProgress(progress);
+            foreach (var lvl in _mockStaticLevels)
+            {
+                if (progress.TryGetValue(lvl.Id, out bool isPassed))
+                    lvl.IsPassed = isPassed;
+            }
+            return _mockStaticLevels;
         }
-        /// <summary>
-        /// Сбрасывает прогресс
-        /// </summary>
+
+        public Level ReadById(int id)
+        {
+            var level = _mockStaticLevels.FirstOrDefault(l => l.Id == id);
+            if (level != null)
+            {
+                var progress = _progressStorage.LoadProgress();
+                if (progress.TryGetValue(level.Id, out bool isPassed))
+                    level.IsPassed = isPassed;
+            }
+            return level;
+        }
+        public void Update(Level obj)
+        {
+            if (obj.IsPassed)
+            {
+                var progress = _progressStorage.LoadProgress();
+                progress[obj.Id] = true;
+                _progressStorage.SaveProgress(progress);
+            }
+        }
+        public void Create(Level obj) => _mockStaticLevels.Add(obj);
+        public void Delete(Level obj) => _mockStaticLevels.RemoveAll(l => l.Id == obj.Id);
         public void ResetAllProgress()
         {
             _progressStorage.ResetProgress();
+            foreach (var lvl in _mockStaticLevels) lvl.IsPassed = false;
         }
         private int[,] GetStandardLayout()
         {

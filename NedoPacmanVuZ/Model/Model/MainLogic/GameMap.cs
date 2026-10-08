@@ -13,29 +13,24 @@ namespace NedoPacmanVuZ.Model.MainLogic
         private readonly List<Entity> _entities = new();
         private readonly List<Ghost> _ghosts = new();
         private readonly List<Projectile> _projectiles = new();
+
         public IReadOnlyList<Vector2> CagePositions { get; }
         public IReadOnlyList<Entity> Entities => _entities;
         public IReadOnlyList<Ghost> Ghosts => _ghosts;
         public IReadOnlyList<Projectile> Projectiles => _projectiles;
-        public Vector2 CageExitPosition
-        {
-            get
-            {
-                // Для большой карты (28х31) это вернет чистые (14, 11)
-                // Для маленькой карты (10х6) это автоматически превратится в безопасные (4, 5)
-                return WrapPosition(new Vector2(14, 11));
-            }
-        }
+        public Vector2 CageExitPosition { get; }
+
         public int Width { get; private set; }
         public int Height { get; private set; }
+
         public event Action<int>? OnScorePointsEarned;
         public event Action? OnEnergizerTriggered;
-        public event Action? OnAllDotsCollected;
-        public GameMap(int width, int height, List<Entity> entities, List<Vector2> cagePositions)
+        public GameMap(int width, int height, List<Entity> entities, List<Vector2> cagePositions, Vector2 cageExitPosition)
         {
             Width = width;
             Height = height;
             CagePositions = cagePositions ?? new List<Vector2>();
+            CageExitPosition = WrapPosition(cageExitPosition);
 
             foreach (var entity in entities)
             {
@@ -108,8 +103,7 @@ namespace NedoPacmanVuZ.Model.MainLogic
         public void RemoveCageWalls()
         {
             var wallsToRemove = Entities.Where(e => e.TypeId == "wall" && CagePositions.Contains(e.Position)).ToList();
-            foreach (var wall in wallsToRemove)
-                _entities.Remove(wall);
+            foreach (var wall in wallsToRemove) _entities.Remove(wall);
         }
         private void HandleEnergizerActivated() => OnEnergizerTriggered?.Invoke();
         /// <summary>

@@ -29,18 +29,23 @@ namespace NedoPacmanVuZ.Model
             ghostFactory.Register("ghost.pinky", (pos) => new Ghost(pos, "Pinky", 1, new PinkyBehavior(), "ghost.pinky", true));
             ghostFactory.Register("ghost.inky", (pos) => new Ghost(pos, "Inky", 1, new InkyBehavior(), "ghost.inky", true));
             ghostFactory.Register("ghost.clyde", (pos) => new Ghost(pos, "Clyde", 1, new ClydeBehavior(), "ghost.clyde", true));
+
             IGameView view = new ConsoleRenderer();
             IInputProvider input = new ConsoleInputProvider();
             IProgressStorage progressStorage = new JsonProgressService();
             ICollisionService collisionService = new CollisionService();
             var levelRepository = new LevelRepository(progressStorage);
+
             while (true)
             {
-                ILevelSelector levelSelector = new ConsoleMenu(levelRepository.GetAllLevels(), levelRepository);
+                // Запрашиваем данные через унифицированный метод чтения всей коллекции
+                ILevelSelector levelSelector = new ConsoleMenu(levelRepository.ReadAll(), levelRepository);
 
                 Level selectedLevel = levelSelector.SelectLevel().Result;
-                GameMap world = LoadMap(selectedLevel.RawMap, itemFactory, ghostFactory);
+
+                GameMap world = LoadMap(selectedLevel, itemFactory, ghostFactory);
                 var game = new GameCore(world, selectedLevel.GameMode, collisionService);
+
                 Console.Clear();
                 while (!game.IsGameOver)
                 {
@@ -54,21 +59,17 @@ namespace NedoPacmanVuZ.Model
                 view.ShowGameOver(game.IsWin);
                 if (game.IsWin)
                 {
-                    levelRepository.MarkLevelAsPassed(selectedLevel.Id);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\n [УСПЕХ] Уровень пройден! Прогресс автоматически записан.");
+                    selectedLevel.IsPassed = true;
+                    levelRepository.Update(selectedLevel); // Сохранение через метод Update репозитория
                 }
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("\n Нажмите любую клавишу для возврата к выбору уровней...");
-                Console.ResetColor();
                 Console.ReadKey(true);
             }
         }
 
-        private static GameMap LoadMap(int[,] rawMap, ObjectFactory<CollectibleItem> iFact, ObjectFactory<Ghost> gFact)
+        private static GameMap LoadMap(Level level, ObjectFactory<CollectibleItem> iFact, ObjectFactory<Ghost> gFact)
         {
             var entities = new List<Entity>();
-            var cagePositions = new List<Vector2>();
+            int[,] rawMap = level.RawMap;
 
             int height = rawMap.GetLength(0);
             int width = rawMap.GetLength(1);
@@ -78,17 +79,6 @@ namespace NedoPacmanVuZ.Model
                 { 52, "player" }, { 10, "ghost.blinky" }, { 11, "ghost.pinky" },
                 { 12, "ghost.inky" }, { 13, "ghost.clyde" }
             };
-            if (width == 28)
-            {
-                cagePositions.AddRange(new[] {
-                    new Vector2(13, 14), new Vector2(14, 14), new Vector2(15, 14),
-                    new Vector2(13, 15), new Vector2(14, 15), new Vector2(15, 15),
-                    new Vector2(13, 16), new Vector2(14, 16), new Vector2(15, 16)
-                });
-            }
-            else
-            {
-            }
 
             for (int y = 0; y < height; y++)
             {
@@ -104,14 +94,13 @@ namespace NedoPacmanVuZ.Model
                     else if (typeId.StartsWith("ghost."))
                     {
                         Ghost ghost = gFact.Create(typeId, pos);
-                        if (ghost != null)
-                        {
-                            entities.Add(ghost);
-                        }
+                        if (ghost != null) entities.Add(ghost);
                     }
                 }
             }
-            return new GameMap(width, height, entities, cagePositions);
+
+            // Полностью чистый проброс параметров без хардкода по ширине
+            return new GameMap(width, height, entities, level.Config.CagePositions, level.Config.CageExitPosition);
         }
     }
 }

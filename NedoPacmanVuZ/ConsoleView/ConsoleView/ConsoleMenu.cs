@@ -66,7 +66,7 @@ namespace NedoPacmanVuZ.View.ConsoleView
                     {
                         _repository.ResetAllProgress();
                         _levels.Clear();
-                        _levels.AddRange(_repository.GetAllLevels());
+                        _levels.AddRange(_repository.ReadAll());
                         _selectedIndex = 0;
                     }
                 }

@@ -9,3 +9,14 @@ C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\M
 C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.sourcelink.json
 C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.dll
 C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\netstandard2.1\Model.deps.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\netstandard2.1\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\netstandard2.1\Model.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.csproj.AssemblyReference.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.AssemblyInfoInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.AssemblyInfo.cs
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.csproj.CoreCompileInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.sourcelink.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.pdb
