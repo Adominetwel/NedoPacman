@@ -1,0 +1,14 @@
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\bin\Release\net10.0\Model.deps.json
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\bin\Release\net10.0\Model.dll
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\bin\Release\net10.0\Model.pdb
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.csproj.AssemblyReference.cache
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.AssemblyInfoInputs.cache
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.AssemblyInfo.cs
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.sourcelink.json
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.dll
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\refint\Model.dll
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.pdb
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\ref\Model.dll
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Release\net10.0\Model.csproj.Up2Date

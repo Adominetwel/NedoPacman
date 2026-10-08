@@ -1,0 +1,11 @@
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\netstandard2.1\Model.deps.json
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\netstandard2.1\Model.dll
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\netstandard2.1\Model.pdb
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.csproj.AssemblyReference.cache
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.AssemblyInfoInputs.cache
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.AssemblyInfo.cs
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.csproj.CoreCompileInputs.cache
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.sourcelink.json
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.dll
+C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\netstandard2.1\Model.pdb

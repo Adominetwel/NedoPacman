@@ -1,0 +1,24 @@
+﻿using NedoPacmanVuZ.Model.Entities;
+using NedoPacmanVuZ.Model.MainLogic;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+namespace NedoPacmanVuZ.Model.GameLevel
+{
+    namespace NedoPacmanVuZ.Model.GameModes
+    {
+        public class AnnihilationGameMode : IGameMode
+        {
+            public string ModeId => "mode.annihilation";
+            public bool IsShootingAllowed => true;
+            public bool IsDotRespawnEnabled => true;
+            public bool AreGhostsPermanentlyKillable => true;
+            public bool IsTimedRespawnEnabled => false;
+            public bool IsVictoryAchieved(GameMap world)
+            {
+                return !world.Ghosts.Any(g => g.State != GhostState.Dead);
+            }
+        }
+    }
+}
