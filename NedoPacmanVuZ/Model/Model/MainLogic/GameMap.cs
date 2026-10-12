@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Model.Model.Vectors;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 

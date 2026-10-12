@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Model.Model.Vectors;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.MainLogic;
 

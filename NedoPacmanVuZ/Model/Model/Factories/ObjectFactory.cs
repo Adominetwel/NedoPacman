@@ -1,4 +1,4 @@
-﻿using NedoPacmanVuZ.Model;
+﻿using Model.Model.Vectors;
 using NedoPacmanVuZ.Model.Entities;
 using System;
 using System.Collections.Generic;

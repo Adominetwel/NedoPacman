@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.Model.Entities;
+﻿using Model.Model.Vectors;
+using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 using NedoPacmanVuZ.Model.GameLevel;
 using System;
@@ -47,10 +48,6 @@ namespace NedoPacmanVuZ.Model.MainLogic
             }
         }
         public IGameMode GameMode { get; }
-
-
-
-
         public GameCore(GameMap world, IGameMode gameMode, ICollisionService collisionService)
         {
             World = world;
@@ -75,7 +72,7 @@ namespace NedoPacmanVuZ.Model.MainLogic
         /// <summary>
         /// Попытка совершить выстрел
         /// </summary>
-        public void TryFire()
+        private void TryFire()
         {
             if (!GameMode.IsShootingAllowed) return;
 
@@ -99,21 +96,15 @@ namespace NedoPacmanVuZ.Model.MainLogic
         {
             UpdateGameModeTimer();
             ReleaseGhostsIfNeeded();
-
             if (IsGameOver) return;
-
             if (shootPressed)
                 TryFire();
-
             if (playerDirection != Vector2.None)
                 _nextDirection = playerDirection;
-
             Player? player = World.GetPlayer();
             if (player == null) return;
-
             if (_nextDirection != Vector2.None && !CollisionService.IsWallAt(PlayerPosition + _nextDirection, World))
                 _currentDirection = _nextDirection;
-
             if (_currentDirection != Vector2.None)
             {
                 Vector2 nextPlayerPos = PlayerPosition + _currentDirection;
@@ -127,12 +118,11 @@ namespace NedoPacmanVuZ.Model.MainLogic
             }
 
             CheckGhostCollision();
-            if (IsGameOver) return;
-
+            if (IsGameOver) 
+                return;
             UpdateGhosts();
             UpdateProjectiles();
             CheckGhostCollision();
-
             if (GameMode.IsDotRespawnEnabled)
                 World.RespawnDotsIfNeeded();
             CheckCageCondition();
@@ -211,7 +201,6 @@ namespace NedoPacmanVuZ.Model.MainLogic
                         break;
                     }
                 }
-
                 if (destroyed) continue;
             }
         }
@@ -253,22 +242,15 @@ namespace NedoPacmanVuZ.Model.MainLogic
                 bool foundValidPos = false;
 
                 if (World.CagePositions != null && World.CagePositions.Count > 0)
-                {
                     foreach (var pos in World.CagePositions)
-                    {
                         if (pos.X < World.Width && pos.Y < World.Height && !World.Ghosts.Any(g => g.Position == pos))
                         {
                             targetCagePos = pos;
                             foundValidPos = true;
                             break;
                         }
-                    }
-                }
                 if (!foundValidPos)
-                {
                     targetCagePos = hitGhost.InitialSpawnPosition;
-                }
-
                 hitGhost.Position = targetCagePos;
             }
             return true;
@@ -311,7 +293,6 @@ namespace NedoPacmanVuZ.Model.MainLogic
                     break;
                 }
             }
-
             if (ghostOnPlayer != null)
             {
                 if (CurrentGhostMode == GhostMode.Frightened)
@@ -358,7 +339,7 @@ namespace NedoPacmanVuZ.Model.MainLogic
                 }
             }
         }
-        public Vector2 GetScatterTarget(string ghostTypeId) => ghostTypeId switch
+        public Vector2 GetScatterTarget(string ghostTypeId) => ghostTypeId switch //КОСТЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЛЬ
         {
             "ghost.blinky" => new Vector2(World.Width - 2, -2),
             "ghost.pinky" => new Vector2(2, -2),

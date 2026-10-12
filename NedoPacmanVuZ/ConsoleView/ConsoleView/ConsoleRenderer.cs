@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.Model;
+﻿using Model.Model.Vectors;
+using NedoPacmanVuZ.Model;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.MainLogic;
 using System.Runtime.InteropServices;

@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.Model.Entities;
+﻿using Model.Model.Vectors;
+using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;

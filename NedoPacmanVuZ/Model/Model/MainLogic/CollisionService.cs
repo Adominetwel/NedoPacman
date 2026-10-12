@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Model.Model.Vectors;
 namespace NedoPacmanVuZ.Model.MainLogic
 {
     public class CollisionService : ICollisionService

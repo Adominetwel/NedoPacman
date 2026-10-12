@@ -1,4 +1,4 @@
-﻿using NedoPacmanVuZ.Model;
+﻿using Model.Model.Vectors;
 
 namespace NedoPacmanVuZ.Model.Entities.Collectibles
 {

@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.Model.MainLogic;
+﻿using Model.Model.Vectors;
+using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

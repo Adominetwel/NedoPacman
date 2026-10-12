@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL
+namespace DAL.Dapper
 {
     public class LevelDbDto
     {
@@ -17,3 +17,4 @@ namespace DAL
         public bool IsPassed { get; set; }
     }
 }
+    

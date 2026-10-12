@@ -1,4 +1,5 @@
-﻿using Model.FileManager;
+﻿using DAL.Dapper;
+using DAL.Repository;
 using NedoPacmanVuZ.Model;
 using NedoPacmanVuZ.Model.GameLevel;
 using System;
@@ -11,8 +12,8 @@ namespace NedoPacmanVuZ.View.ConsoleView
     {
         private readonly List<Level> _levels;
         private int _selectedIndex = 0;
-        private readonly IRepository<Level> _repository;
-        public ConsoleMenu(IEnumerable<Level> levels, IRepository<Level> repository)
+        private readonly ILevelRepository _repository;
+        public ConsoleMenu(IEnumerable<Level> levels, ILevelRepository repository)
         {
             _levels = levels.ToList();
             _repository = repository;

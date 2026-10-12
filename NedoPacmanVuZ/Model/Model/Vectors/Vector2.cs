@@ -1,4 +1,4 @@
-﻿namespace NedoPacmanVuZ.Model
+﻿namespace Model.Model.Vectors
 {
     public struct Vector2
     {

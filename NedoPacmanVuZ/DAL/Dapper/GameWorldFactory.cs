@@ -1,6 +1,6 @@
-﻿using DAL;
-using Dapper;
-using NedoPacmanVuZ.Model;
+﻿using Dapper;
+using Model.Model.Factories;
+using Model.Model.Vectors;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
 using NedoPacmanVuZ.Model.Entities.GhostBehavior;
@@ -10,46 +10,42 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Text;
 
-namespace Model.Model.Factories
+namespace DAL.Dapper
 {
     public class GameWorldFactory : IGameWorldFactory
     {
         private readonly string _connectionString;
         private readonly ObjectFactory<CollectibleItem> _itemFactory;
         private readonly ObjectFactory<Ghost> _ghostFactory;
-
-        public GameWorldFactory(
-            string connectionString,
-            ObjectFactory<CollectibleItem> itemFactory,
-            ObjectFactory<Ghost> ghostFactory)
+        private readonly Assembly _modelAssembly;
+        public GameWorldFactory(string connectionString, ObjectFactory<CollectibleItem> itemFactory, ObjectFactory<Ghost> ghostFactory)
         {
             _connectionString = connectionString;
             _itemFactory = itemFactory;
             _ghostFactory = ghostFactory;
+            _modelAssembly = typeof(Wall).Assembly;
         }
-
         private IDbConnection CreateConnection() => new NpgsqlConnection(_connectionString);
-
         public GameMap CreateWorld(int levelId)
         {
             using var db = CreateConnection();
-            var mappingRows = db.Query<(int TileCode, string EntityTypeId)>(
-                "SELECT tile_code, entity_type_id FROM tile_mappings;");
+            var mappingRows = db.Query<(int TileCode, string EntityTypeId, string ClassFullName)>("SELECT tile_code as TileCode, entity_type_id as EntityTypeId, class_full_name as ClassFullName FROM tile_mappings;");
             var mapping = mappingRows.ToDictionary(x => x.TileCode, x => x.EntityTypeId);
+            DynamicConfigureItemFactory(mappingRows);
             string levelSql = @"
                 SELECT id as Id, raw_map as RawMap, cage_exit_x as CageExitX, cage_exit_y as CageExitY, 
                        cage_positions as CagePositions, ghost_settings as GhostSettings
                 FROM levels WHERE id = @levelId;";
             var dto = db.QueryFirstOrDefault<LevelDbDto>(levelSql, new { levelId });
             if (dto == null) throw new Exception($"Уровень с ID {levelId} не найден в СУБД.");
-            ConfigureGhostFactory(dto.GhostSettings);
+            DynamicConfigureGhostFactory(dto.GhostSettings, db);
             var entities = new List<Entity>();
             string[] lines = dto.RawMap.Split(new[] { "\\n" }, StringSplitOptions.RemoveEmptyEntries);
             int height = lines.Length;
             int width = lines[0].Split(',').Length;
-
             for (int y = 0; y < height; y++)
             {
                 var tokens = lines[y].Split(',');
@@ -81,9 +77,12 @@ namespace Model.Model.Factories
 
             return new GameMap(width, height, entities, cagePosList, new Vector2(dto.CageExitX, dto.CageExitY));
         }
-
-        private void ConfigureGhostFactory(string settingsRaw)
+        private void DynamicConfigureGhostFactory(string settingsRaw, IDbConnection db)
         {
+            var behaviorMapping = db.Query<(string Id, string ClassName)>(
+                "SELECT behavior_id as Id, class_full_name as ClassName FROM ghost_behaviors;")
+                .ToDictionary(x => x.Id, x => x.ClassName);
+
             var ghostRecords = settingsRaw.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var record in ghostRecords)
             {
@@ -91,18 +90,23 @@ namespace Model.Model.Factories
                 string typeId = tokens[0];
                 int speed = int.Parse(tokens[1]);
                 bool startInHouse = bool.Parse(tokens[2]);
-
-                IGhostBehavior behavior = typeId switch
-                {
-                    "ghost.blinky" => new BlinkyBehavior(),
-                    "ghost.pinky" => new PinkyBehavior(),
-                    "ghost.inky" => new InkyBehavior(),
-                    "ghost.clyde" => new ClydeBehavior(),
-                    _ => new BlinkyBehavior()
-                };
-
-                string name = char.ToUpper(typeId[6]) + typeId.Substring(7);
-                _ghostFactory.Register(typeId, (pos) => new Ghost(pos, name, speed, behavior, typeId, startInHouse));
+                if (!behaviorMapping.TryGetValue(typeId, out var behaviorClassName)) continue;
+                Type behaviorType = _modelAssembly.GetType(behaviorClassName);
+                IGhostBehavior behavior = (IGhostBehavior)Activator.CreateInstance(behaviorType);
+                string ghostName = typeId.Replace("ghost.", "");
+                string name = char.ToUpper(ghostName[0]) + ghostName.Substring(1);
+                _ghostFactory.Register(typeId, (pos) =>
+                    new Ghost(pos, name, speed, behavior, typeId, startInHouse));
+            }
+        }
+        private void DynamicConfigureItemFactory(IEnumerable<(int, string EntityTypeId, string ClassFullName)> mappingRows)
+        {
+            foreach (var row in mappingRows)
+            {
+                if (!row.EntityTypeId.StartsWith("dot.")) continue;
+                Type itemType = _modelAssembly.GetType(row.ClassFullName);
+                if (itemType == null) continue;
+                _itemFactory.Register(row.EntityTypeId, (pos) => (CollectibleItem)Activator.CreateInstance(itemType, pos));
             }
         }
     }

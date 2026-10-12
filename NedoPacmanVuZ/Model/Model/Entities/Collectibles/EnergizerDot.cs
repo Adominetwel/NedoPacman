@@ -1,4 +1,4 @@
-﻿using NedoPacmanVuZ.Model;
+﻿using Model.Model.Vectors;
 using System;
 
 namespace NedoPacmanVuZ.Model.Entities.Collectibles
@@ -10,7 +10,6 @@ namespace NedoPacmanVuZ.Model.Entities.Collectibles
     {
         public event Action? OnEnergizerActivated;
         public EnergizerDot(Vector2 position) : base(position, 10, "dot.energizer") { }
-
         public override void OnCollect()
         {
             OnEnergizerActivated?.Invoke();

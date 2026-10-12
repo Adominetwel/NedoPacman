@@ -7,6 +7,10 @@ namespace Model.ViewInterfaces
 {
     public interface IAuthService
     {
+        /// <summary>
+        /// Авторизует пользователя
+        /// </summary>
+        /// <returns>Ссылка на объект пользователя</returns>
         User Authenticate();
     }
 }

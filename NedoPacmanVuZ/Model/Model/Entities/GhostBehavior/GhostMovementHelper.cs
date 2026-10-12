@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.MainLogic;
+using Model.Model.Vectors;
 namespace NedoPacmanVuZ.Model.Entities.GhostBehavior
 {
     public static class GhostMovementHelper

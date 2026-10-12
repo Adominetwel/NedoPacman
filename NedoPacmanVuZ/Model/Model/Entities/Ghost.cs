@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.Model.Entities.GhostBehavior;
+﻿using Model.Model.Vectors;
+using NedoPacmanVuZ.Model.Entities.GhostBehavior;
 using NedoPacmanVuZ.Model.MainLogic;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,6 @@ namespace NedoPacmanVuZ.Model.Entities
             Speed = speed;
             Behavior = behavior;
             IsInHouse = startInHouse;
-
-
             InitialSpawnPosition = position;
         }
         /// <summary>

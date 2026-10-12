@@ -1,8 +1,10 @@
 ﻿using ConsoleView.ConsoleView;
+using DAL;
+using DAL.Dapper;
 using DAL.EntityFramework;
-using Model.FileManager;
 using Model.Model.Factories;
 using Model.Model.User;
+using Model.Model.Vectors;
 using Model.ViewInterfaces;
 using NedoPacmanVuZ.Model.Entities;
 using NedoPacmanVuZ.Model.Entities.Collectibles;
@@ -19,20 +21,15 @@ namespace NedoPacmanVuZ.Model
 {
     class Program
     {
+        private static readonly string ConnectionString = "Host=localhost;Port=5432;Database=nedo_pacman_db;Username=postgres;Password=6752;";
         /// <summary>
         /// Бесполезный метод
         /// </summary>
         /// <param name="args">хз чё это</param>
-        private static readonly string ConnectionString = "Host=localhost;Port=5432;Database=nedo_pacman_db;Username=postgres;Password=6752;";
-
         static void Main(string[] args)
         {
             var itemFactory = new ObjectFactory<CollectibleItem>();
-            itemFactory.Register("dot.default", (pos) => new DefaultDot(pos));
-            itemFactory.Register("dot.energizer", (pos) => new EnergizerDot(pos));
             var ghostFactory = new ObjectFactory<Ghost>();
-
-
             IGameView view = new ConsoleRenderer();
             IInputProvider input = new ConsoleInputProvider();
             ICollisionService collisionService = new CollisionService();
@@ -41,8 +38,6 @@ namespace NedoPacmanVuZ.Model
             User currentUser = authService.Authenticate();
             var levelRepository = new LevelRepository(ConnectionString, currentUser.Id);
             IGameWorldFactory worldFactory = new GameWorldFactory(ConnectionString, itemFactory, ghostFactory);
-
-
             while (true)
             {
                 ILevelSelector levelSelector = new ConsoleMenu(levelRepository.ReadAll(), levelRepository);
