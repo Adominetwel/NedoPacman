@@ -1,0 +1,6 @@
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Debug\netstandard2.1\DAL.csproj.AssemblyReference.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Debug\netstandard2.1\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Debug\netstandard2.1\DAL.AssemblyInfoInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Debug\netstandard2.1\DAL.AssemblyInfo.cs
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Debug\netstandard2.1\DAL.csproj.CoreCompileInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Debug\netstandard2.1\DAL.sourcelink.json

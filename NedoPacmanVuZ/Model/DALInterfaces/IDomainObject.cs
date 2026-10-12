@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Model.FileManager
+namespace Model.DALInterfaces
 {
     public interface IDomainObject
     {

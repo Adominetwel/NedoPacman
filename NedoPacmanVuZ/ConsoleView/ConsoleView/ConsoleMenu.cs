@@ -1,4 +1,5 @@
-﻿using NedoPacmanVuZ.Model;
+﻿using Model.FileManager;
+using NedoPacmanVuZ.Model;
 using NedoPacmanVuZ.Model.GameLevel;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace NedoPacmanVuZ.View.ConsoleView
     {
         private readonly List<Level> _levels;
         private int _selectedIndex = 0;
-        private readonly LevelRepository _repository;
-        public ConsoleMenu(IEnumerable<Level> levels, LevelRepository repository)
+        private readonly IRepository<Level> _repository;
+        public ConsoleMenu(IEnumerable<Level> levels, IRepository<Level> repository)
         {
             _levels = levels.ToList();
             _repository = repository;
@@ -64,7 +65,7 @@ namespace NedoPacmanVuZ.View.ConsoleView
                     var confirm = Console.ReadKey(true).Key;
                     if (confirm == ConsoleKey.Y)
                     {
-                        _repository.ResetAllProgress();
+                        (_repository as LevelRepository)?.ResetAllProgress(); // КОСТЫЫЫЫЫЫЫЛЬ
                         _levels.Clear();
                         _levels.AddRange(_repository.ReadAll());
                         _selectedIndex = 0;

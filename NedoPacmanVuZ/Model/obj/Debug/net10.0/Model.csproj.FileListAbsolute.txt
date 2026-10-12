@@ -12,3 +12,17 @@ C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\refint\M
 C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.pdb
 C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\ref\Model.dll
 C:\Users\Dan\Downloads\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.csproj.Up2Date
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\refint\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\net10.0\Model.deps.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\net10.0\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\bin\Debug\net10.0\Model.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.csproj.AssemblyReference.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.AssemblyInfoInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.AssemblyInfo.cs
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.csproj.CoreCompileInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.sourcelink.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\ref\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\Model\obj\Debug\net10.0\Model.csproj.Up2Date

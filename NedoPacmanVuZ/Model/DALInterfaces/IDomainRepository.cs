@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Model.FileManager
+namespace Model.DALInterfaces
 {
-    public interface IRepository<T> where T : IDomainObject, new()
+    public interface IDomainRepository<T> where T : IDomainObject, new()
     {
         void Create(T obj);
         IEnumerable<T> ReadAll();
@@ -13,3 +13,4 @@ namespace Model.FileManager
         void Delete(T obj);
     }
 }
+    
