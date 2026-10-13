@@ -3,6 +3,7 @@ using Model;
 using Model.Model.User;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DAL.EntityFramework

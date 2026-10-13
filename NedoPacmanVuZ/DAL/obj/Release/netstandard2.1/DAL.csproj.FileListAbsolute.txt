@@ -1,0 +1,14 @@
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\bin\Release\netstandard2.1\DAL.deps.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\bin\Release\netstandard2.1\DAL.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\bin\Release\netstandard2.1\DAL.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\bin\Release\netstandard2.1\Model.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\bin\Release\netstandard2.1\Model.pdb
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.csproj.AssemblyReference.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.AssemblyInfoInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.AssemblyInfo.cs
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.csproj.CoreCompileInputs.cache
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.sourcelink.json
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.csproj.Up2Date
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.dll
+C:\MyGames\NedoPacman\NedoPacmanVuZ\DAL\obj\Release\netstandard2.1\DAL.pdb
