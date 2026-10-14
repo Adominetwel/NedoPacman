@@ -14,7 +14,7 @@ namespace ConsoleView.ConsoleView
         {
             _repo = repo;
         }
-        public User Authenticate()
+        public Task<User> Authenticate()
         {
             Console.CursorVisible = true;
             while (true)
@@ -42,12 +42,12 @@ namespace ConsoleView.ConsoleView
                     {
                         var newUser = new User { Username = name };
                         _repo.Create(newUser);
-                        return newUser;
+                        return Task.FromResult(newUser);
                     }
                 }
                 else if (int.TryParse(input, out int idx) && idx > 0 && idx <= users.Count)
                 {
-                    return users[idx - 1];
+                    return Task.FromResult(users[idx - 1]);
                 }
             }
         }

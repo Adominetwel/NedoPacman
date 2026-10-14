@@ -35,7 +35,7 @@ namespace NedoPacmanVuZ.Model
             ICollisionService collisionService = new CollisionService();
             var userRepo = new EfUserRepository(ConnectionString);
             IAuthService authService = new ConsoleAuthService(userRepo);
-            User currentUser = authService.Authenticate();
+            User currentUser = authService.Authenticate().Result;
             var levelRepository = new LevelRepository(ConnectionString, currentUser.Id);
             IGameWorldFactory worldFactory = new GameWorldFactory(ConnectionString, itemFactory, ghostFactory);
             while (true)
